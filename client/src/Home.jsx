@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom';
 function Home() {
   return (
     <div className="homepage">
@@ -5,11 +6,11 @@ function Home() {
         <h2>DWELLEDGE Tech</h2>
         <nav>
           <ul>
-            <li>About Us</li>
-            <li>Services</li>
-            <li>Careers</li>
-            <li>Contact Us</li>
-            <li>Employee Login </li>
+            <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/services">Services</Link></li>
+            <li><Link to="/careers">Careers</Link></li>
+            <li><Link to="/contact">Contact Us</Link></li>
+            <li><Link to="/login">Employee Login</Link></li>
           </ul>
         </nav>
       </header>
