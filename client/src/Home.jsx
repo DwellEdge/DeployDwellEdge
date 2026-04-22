@@ -18,7 +18,7 @@ function Home() {
             <li>Services</li>
             <li>Careers</li>
             <li>Contact Us</li>
-            <li>Employee Login</li>
+            <li>Employee</li>
           </ul>
         </nav>
         <div className="nav-right">
