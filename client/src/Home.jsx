@@ -11,20 +11,17 @@ function Home() {
 <div className="overlay"></div>
 
       <header className="navbar">
-        <h2 className="logo">DWELLEDGE Tech</h2>
-        <nav className="nav-center">
+        <h2>DWELLEDGE Tech</h2>
+        <nav>
           <ul>
-            <li>About Us</li>
-            <li>Services</li>
-            <li>Careers</li>
-            <li>Contact Us</li>
-            <li>Employee</li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/services">Services</Link></li>
+            <li><Link to="/careers">Careers</Link></li>
+            <li><Link to="/contact">Contact Us</Link></li>
+            <li><Link to="/login">Employee Login</Link></li>
           </ul>
         </nav>
-        <div className="nav-right">
-          <button className="login-btn">Login</button>
-          <button className="employee-btn">Employee Login</button>
-        </div>
       </header>
 
       <section className="hero">
