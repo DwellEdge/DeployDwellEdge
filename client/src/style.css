@@ -1,5 +1,6 @@
 /* ===== Scroll Animation ===== */
 
+
 /* Initial hidden state */
 .fade-up {
   opacity: 0;
@@ -31,18 +32,38 @@ body {
 
 /* ================= NAVBAR ================= */
 /* ===== NAVBAR ===== */
+/* NAVBAR MAIN */
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* logo left, rest right */
   align-items: center;
-  padding: 15px 8%;
-  background: #111;              /* 🔥 light black */
-  color: #fff;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  padding: 10px 40px;
 }
 
+/* NAV LINKS + BUTTONS WRAPPER FIX */
+nav {
+  margin-left: auto;   /* pushes nav to right */
+}
+
+/* NAV LINKS */
+.nav-links {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+  align-items: center;
+}
+
+/* PUSH BUTTON TO EXTREME RIGHT */
+.nav-buttons {
+  margin-left: 20px;
+}
+
+/* OPTIONAL: group nav + button together */
+.navbar > nav,
+.navbar > .nav-buttons {
+  display: flex;
+  align-items: center;
+}
 /* LOGO */
 .logo-container {
   display: flex;
@@ -51,14 +72,22 @@ body {
 }
 
 .logo-img {
-  width: 40px;
-  height: 40px;
+  width: 90px;
+  height: 60px;
 }
 
 .logo-container h2 {
   font-size: 20px;
   font-weight: 600;
   color: #fff;
+}
+.logo-text {
+  font-family: "Cambria Math", Cambria, serif; /* Cambria Math font */
+  font-size: 28px;   /* increase size */
+  font-weight: 600;  /* slightly bold */
+  text-decoration: none;
+  color: #ffffff;    /* adjust based on your navbar */
+  letter-spacing: 1px; /* optional spacing */
 }
 
 /* NAV LINKS */
@@ -570,75 +599,168 @@ nav ul li a:hover {
 }
 
 */* Home.css */*
+*/* Footer.css */*  
 
-*/* Careers.css */*
-
-/* NAVBAR */
-.career-navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  background: linear-gradient(90deg, #111, #222);
-  color: white;
-}
-
-.career-navbar ul {
-  display: flex;
-  gap: 20px;
-  list-style: none;
-}
-
-.career-navbar a {
-  color: white;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.career-navbar a:hover {
-  color: #00d4ff;
-}
-
-/* PAGE */
-.career-page {
-  min-height: 100vh;
-  background: #f5f7fa;
-  text-align: center;
-}
-
-/* TITLE */
-.career-title {
-  margin: 40px 0;
-  font-size: 32px;
-  color: #111;
-}
-
-/* GRID */
-.career-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  padding: 0 40px;
-  gap: 20px;
-}
-
-/* CARD */
-.career-card {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  transition: 0.3s;
-}
-
-.career-card:hover {
-  transform: translateY(-8px);
+/* ================= FOOTER ================= */
+.footer {
   background: #111;
   color: white;
+  padding: 40px 60px;
 }
 
-/* POPUP */
-.popup-overlay {
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-columns {
+  display: flex;
+  gap: 40px;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col a {
+  color: #bbb;
+  text-decoration: none;
+}
+
+.footer-col a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  border-top: 1px solid #333;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-logo-img {
+  height: 40px;
+  width: auto;
+}
+
+*/* Footer.css END */*
+*/* Careers.css */*
+
+/* HERO */
+.career-hero {
+  height: 50vh;
+  display: flex;
+  align-items: center;
+}
+.career-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.main-content {
+  flex: 1;
+}
+
+.overlay {
+  padding: 50px;
+  color: white;
+  width: 100%;
+}
+
+.overlay h1 {
+  font-size: 40px;
+}
+
+/* SEARCH */
+.search-box {
+  margin-top: 20px;
+  display: flex;
+  background: #0f172a;
+  border-radius: 30px;
+  overflow: hidden;
+  width: 500px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+}
+
+.search-box button {
+  background: #2563eb;
+  border: none;
+  color: white;
+  padding: 0 20px;
+  cursor: pointer;
+}
+
+/* MAIN LAYOUT */
+.jobs-container {
+  display: flex;
+  gap: 20px;
+  padding: 40px;
+  background: #0b1120;
+}
+
+/* JOB LIST */
+.job-list {
+  flex: 3;
+}
+
+.job-card {
+  background: #111827;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  transition: 0.3s;
+}
+
+.job-card:hover {
+  transform: scale(1.02);
+}
+
+.job-info p {
+  margin: 5px 0;
+  color: #9ca3af;
+}
+
+/* FILTERS */
+.filters {
+  flex: 1;
+  background: #111827;
+  padding: 20px;
+  border-radius: 10px;
+  color:blue;
+  height: fit-content;
+}
+
+.filter-section {
+  margin-top: 20px;
+}
+
+.filter-section p {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.filter-section label {
+  display: block;
+  margin-bottom: 8px;
+  color: #9ca3af;
+}
+
+/* OVERLAY */
+.job-popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -648,55 +770,164 @@ nav ul li a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 }
 
-.popup-box {
-  width: 400px;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  position: relative;
-  text-align: left;
-
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-/* ✅ FIX BUTTON */
-.apply-btn {
-  margin-top: 20px;
-  align-self: flex-end;
-  background: #111;
+/* POPUP */
+.job-popup {
+  background: #0b1120;
   color: white;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  width: 80%;
+  max-width: 900px;
+  height: 80vh;
+  overflow-y: auto;
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+}
+
+/* META */
+.job-meta {
+  display: flex;
+  gap: 15px;
+  margin: 10px 0;
+}
+
+.job-meta span {
+  background: #1f2937;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* CONTENT */
+.job-popup-content h2 {
+  margin-top: 20px;
+}
+
+.job-popup-content p {
+  color: #9ca3af;
 }
 
 /* APPLY BUTTON */
-.apply-btn {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-  background: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
 }
 
 /* CLOSE */
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 15px;
+  top: 15px;
+  right: 20px;
   cursor: pointer;
+  font-size: 20px;
+}
+
+.apply-btn {
+  padding: 14px 32px;      /* 🔥 bigger size */
+  font-size: 16px;
+  border-radius: 999px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.apply-btn:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
 }
 
 */* Careers.css END */*
+
+
+*/* ApplyJob.css */*
+.apply-page {
+  background: wheat;
+  min-height: 100vh;
+  color: white;
+}
+
+.apply-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px;
+}
+
+.apply-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* CARD */
+.apply-card {
+  background: #111827;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+/* GRID */
+.apply-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.apply-grid input {
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.full {
+  grid-column: span 2;
+}
+
+/* BUTTONS */
+.apply-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.primary-btn {
+  background: #2563eb;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 12px 20px;
+}
+
+/* Make headings white */
+.apply-card h2 {
+  color: white;
+}
+
+/* Make the upload label white */
+.full label {
+  color: white;
+}
+
+/* Optional: make the file name white too */
+.file-name {
+  color: white;
+}
+
+
+
+*/* ApplyJob.css END*/*
 
 */* Services.css */*
 
@@ -871,6 +1102,174 @@ nav ul li a:hover {
   .services-title { font-size: 2rem; }
 }
 
+*/* Services.css END */*
+
+*/*Contact.css*/*
+/* PAGE */
+.contact-page {
+  background:white;
+  color: white;
+  min-height: 100vh;
+}
+
+/* CONTAINER */
+.contact-shell {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+/* BREADCRUMB */
+.contact-breadcrumbs {
+  color: white;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* TITLE */
+.contact-shell h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.contact-intro {
+  color: white;
+  margin-bottom: 30px;
+}
+
+/* LAYOUT */
+.contact-layout {
+  display: flex;
+  gap: 30px;
+}
+
+/* FORM */
+.contact-form {
+  flex: 2;
+  background: #111827;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+/* GRID */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background: #1f2937;
+  color: grey;
+}
+
+/* TEXTAREA */
+.contact-form textarea {
+  width: 100%;
+  margin-top: 15px;
+}
+
+/* FILE */
+.file-upload {
+  margin-top: 15px;
+}
+
+.file-upload input {
+  color: white;
+}
+
+/* CHECKBOX */
+.agree-line {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  font-size: 14px;
+  color: white;
+}
+
+/* BUTTON */
+.submit-btn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  border-radius: 999px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background: #1d4ed8;
+}
+
+/* SIDEBAR */
+.contact-sidebar {
+  flex: 1;
+}
+
+/* CARD */
+.hq-card {
+  background: gray;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.hq-card h2 {
+  margin-bottom: 10px;
+}
+
+/* LINKS */
+.contact-links {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-links li {
+  padding: 10px;
+  background: gray;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.contact-links li:hover {
+  background: #1f2937;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .contact-layout {
+    flex-direction: column;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+h1 {
+  color: white;
+}
+
+*/* Contact.css END */*
 
 
 

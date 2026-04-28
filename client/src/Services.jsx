@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const services = [
   {
@@ -49,19 +50,7 @@ function Services() {
   return (
     <div>
 
-      <header className="navbar">
-        <h2>DWELLEDGE Tech</h2>
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About Us</Link></li>
-            <li><Link to="/services">Services</Link></li>
-            <li><Link to="/careers">Careers</Link></li>
-            <li><Link to="/contact">Contact Us</Link></li>
-            <li><Link to="/login">Employee Login</Link></li>
-          </ul>
-        </nav>
-      </header>
+      <Navbar />
 
       <div className="services-page">
         <div className="services-header">

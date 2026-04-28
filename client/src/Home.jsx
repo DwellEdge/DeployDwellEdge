@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./style.css";
 import dwelledgeLogo from "./images/dwelledgeimage.png";
 import Footer from "./Footer";
+import Navbar from "./Navbar";
 
 // Videos
 import video1 from "./vedioes/ai-animation-video.mp4";
@@ -25,17 +26,30 @@ import img5 from "./images/hostal-application.jpg";
 import img6 from "./images/webdegin-image.avif";
 
 function Home() {
-  
+
 
   const slides = [
-    { video: slide1, title: "Empowering Talent Transformations", text: "Embrace the talent revolution to remain relevant in the future career." },
-    { video: slide2, title: "Innovate Faster with DWELLEDGE", text: "We build scalable solutions for modern businesses." },
-    { video: slide3, title: "Technology That Drives Growth", text: "Transform your business with cutting-edge digital solutions." },
+    {
+      video: slide1,
+      title: "Empowering Talent Transformations",
+      text: "Embrace the talent revolution and build future-ready skills with DWELLEDGE technologies.",
+    },
+    {
+      video: slide2,
+      title: "Innovative Digital Solutions",
+      text: "We design scalable web, AI, and cloud solutions that accelerate business growth and efficiency.",
+    },
+    {
+      video: slide3,
+      title: "Technology That Drives Success",
+      text: "From startups to enterprises, DWELLEDGE delivers smart, reliable, and high-performance software solutions.",
+    },
   ];
 
   const [current, setCurrent] = useState(0);
-    
-    useEffect(() => {
+
+  useEffect(() => {
+  // ================= FADE-UP ANIMATION =================
   const elements = document.querySelectorAll(".fade-up");
 
   const observer = new IntersectionObserver(
@@ -51,11 +65,19 @@ function Home() {
 
   elements.forEach((el) => observer.observe(el));
 
-  // ✅ CLEANUP (IMPORTANT)
+  // ================= VIDEO SLIDER =================
+  const interval = setInterval(() => {
+    setCurrent((prev) => (prev + 1) % slides.length);
+  }, 5000); // change video every 5 sec
+
+  // ================= CLEANUP =================
   return () => {
     elements.forEach((el) => observer.unobserve(el));
+    clearInterval(interval); // ✅ stop slider on unmount
   };
-}, []);
+
+}, [slides.length]);
+
   const vid1Ref = useRef(null);
   const vid2Ref = useRef(null);
   const trackRef = useRef(null);
@@ -75,35 +97,26 @@ function Home() {
     <div className="homepage">
 
       {/* NAVBAR */}
-      <header className="navbar navbar-dark">
-        <div className="logo-container">
-          <img src={dwelledgeLogo} alt="logo" className="logo-img" />
-          <h2 className="logo-text">DWELLEDGE Tech</h2>
-        </div>
-
-        <nav>
-          <ul className="nav-links">
-            <li><Link to="/About">About Us</Link></li>
-            <li><Link to="/Services">Services</Link></li>
-            <li><Link to="/Careers">Careers</Link></li>
-            <li><Link to="/Contact">Contact Us</Link></li>
-          </ul>
-        </nav>
-
-        <div className="nav-buttons">
-          <Link to="/login" className="nav-btn">Login</Link>
-          <Link to="/start" className="nav-btn primary">Employee Login</Link>
-        </div>
-      </header>
+      <Navbar />
 
       {/* HERO */}
       <section className="hero-banner">
-        <video key={current} autoPlay loop muted playsInline className="hero-bg-video">
+
+        {/* VIDEO BACKGROUND */}
+        <video
+          key={slides[current].video}   // ✅ ensures video changes properly
+          autoPlay
+          muted
+          playsInline
+          className="hero-bg-video"
+        >
           <source src={slides[current].video} type="video/mp4" />
         </video>
 
+        {/* DARK OVERLAY */}
         <div className="hero-overlay"></div>
 
+        {/* TEXT CONTENT */}
         <div className="hero-content">
           <div className="hero-text">
             <h1>{slides[current].title}</h1>
@@ -115,10 +128,11 @@ function Home() {
             </div>
           </div>
         </div>
+
       </section>
 
       {/* INDUSTRY SECTION */}
-        <section className="industry-section video-bg-section fade-up">
+      <section className="industry-section video-bg-section fade-up">
         <video autoPlay loop muted playsInline className="section-bg-video">
           <source src={video3} type="video/mp4" />
         </video>
@@ -139,7 +153,7 @@ function Home() {
       </section>
 
       {/* ================= PROMO 1 ================= */}
-        <section className="promo fade-up">
+      <section className="promo fade-up">
 
         {/* LEFT TEXT */}
         <div className="promo-left">
@@ -174,7 +188,7 @@ function Home() {
 
 
       {/* ================= PROMO 2 ================= */}
-        <section className="promo alt fade-up">
+      <section className="promo alt fade-up">
 
         {/* LEFT VIDEO */}
         <div className="promo-left">
@@ -208,7 +222,7 @@ function Home() {
       </section>
 
       {/* ================= BOTTOM CARDS ================= */}
-        <section className="bottom-section fade-up">
+      <section className="bottom-section fade-up">
         <h1 className="bottom-heading"> Cutting edge solutions to power up your business. </h1>
         <div className="bottom-grid">
           <div className="bottom-card">
@@ -233,7 +247,7 @@ function Home() {
       </section>
 
       {/* ================= GIFT CARD SECTION ================= */}
-        <section className="giftcard-section fade-up">
+      <section className="giftcard-section fade-up">
         <h2 className="giftcard-heading">Popular development</h2>
         <p className="giftcard-subheading"> Explore our most popular development solutions, designed to help you achieve your goals faster and more efficiently. </p>
         <div className="giftcard-carousel">

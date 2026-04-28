@@ -1,94 +1,176 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
+import bgImage from "./images/career-image.jpg";
 import "./style.css";
-import dwelledgeLogo from "./images/dwelledgeimage.png";
+import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 function Careers() {
-
-  const [careers, setCareers] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [search, setSearch] = useState("");
   const [selectedJob, setSelectedJob] = useState(null);
+  const navigate = useNavigate();
 
+  // 🔥 FETCH JOBS FROM BACKEND
   useEffect(() => {
-    const data = [
-      {
-        id: 1,
-        title: "Frontend Developer",
-        skills: "React, JavaScript, CSS",
-        description: "Build modern UI and responsive web apps."
-      },
-      {
-        id: 2,
-        title: "Backend Developer",
-        skills: "Node.js, Express, MongoDB",
-        description: "Develop APIs and scalable backend systems."
-      },
-      {
-        id: 3,
-        title: "Data Analyst",
-        skills: "Python, SQL, Excel",
-        description: "Analyze data and generate business insights."
-      }
-    ];
+    fetch("http://localhost:5000/careers")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("API DATA:", data);
 
-    setCareers(data);
+        // ✅ Ensure array
+        if (Array.isArray(data)) {
+          setJobs(data);
+        } else {
+          setJobs([]);
+        }
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err);
+        setJobs([]);
+      });
   }, []);
+
+  // ✅ FIX: DEFINE filteredJobs (THIS WAS MISSING)
+  const filteredJobs = jobs.filter((job) =>
+    job.jobTitle?.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="career-page">
+      <Navbar />
 
-      {/* 🔥 HEADER / NAVBAR */}
-      <header className="career-navbar">
-        <div className="logo-container">
-          <img src={dwelledgeLogo} alt="logo" className="logo-img" />
-          <h2>DWELLEDGE</h2>
+      <div className="main-content">
+        {/* HERO */}
+        <div
+          className="career-hero"
+          style={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center"
+          }}
+        >
+          <div className="overlay">
+            <h1>Job search</h1>
+
+            <div className="search-box">
+              <input
+                type="text"
+                placeholder="Search jobs by title..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button>→</button>
+            </div>
+          </div>
         </div>
 
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/Services">Services</Link></li>
-            <li><Link to="/Careers">Careers</Link></li>
-            <li><Link to="/Contact">Contact</Link></li>
-          </ul>
-        </nav>
-      </header>
+        {/* JOBS */}
+        <div className="jobs-container">
+          <div className="job-list">
 
-      {/* 🔥 TITLE */}
-      <h1 className="career-title">Join Our Team 🚀</h1>
+            {/* ✅ HANDLE EMPTY STATE */}
+            {filteredJobs.length === 0 ? (
+              <p style={{ color: "white" }}>No jobs found</p>
+            ) : (
+              filteredJobs.map((job) => (
+                <div
+                  key={job._id}
+                  className="job-card"
+                  onClick={() => setSelectedJob(job)}
+                >
+                  <div>
+                    <h2>{job.jobTitle} →</h2>
+                    <p>{job.requiredSkills}</p>
+                  </div>
 
-      {/* 🔥 JOB GRID */}
-      <div className="career-grid">
-        {careers.map((job) => (
-          <div
-            key={job.id}
-            className="career-card"
-            onClick={() => setSelectedJob(job)}
-          >
-            <h3>{job.title}</h3>
-            <p>{job.skills}</p>
+                  <div className="job-info">
+                    <p>{job.description}</p>
+                  </div>
+                </div>
+              ))
+            )}
+
           </div>
-        ))}
+
+          {/* FILTERS */}
+          <div className="filters">
+            <h3>Filters</h3>
+
+            <div className="filter-section">
+              <p>Experience Level</p>
+              <label><input type="checkbox" /> Executives</label>
+              <label><input type="checkbox" /> Experienced Professionals</label>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* 🔥 POPUP */}
       {selectedJob && (
-        <div className="popup-overlay" onClick={() => setSelectedJob(null)}>
-          <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="job-popup-overlay"
+          onClick={() => setSelectedJob(null)}
+        >
+          <div
+            className="job-popup"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h1>{selectedJob.jobTitle}</h1>
 
-            <h2>{selectedJob.title}</h2>
+            <div className="job-meta">
+              <span>Created By: {selectedJob.createdBy}</span>
+              <span>
+                {new Date(selectedJob.createdDate).toLocaleDateString()}
+              </span>
+            </div>
 
-            <p><strong>Skills:</strong> {selectedJob.skills}</p>
-            <p>{selectedJob.description}</p>
+            <div className="job-popup-content">
+              <h2>Required Skills</h2>
+              <p>{selectedJob.requiredSkills}</p>
 
-            <button className="apply-btn">
-              Apply Now →
-            </button>
+              <h2>Job Description</h2>
+              <p>{selectedJob.description}</p>
 
-            <span className="close-btn" onClick={() => setSelectedJob(null)}>✖</span>
+              <h2>Your Role</h2>
+              <p>
+                As a {selectedJob.jobTitle}, you will work on modern applications
+                and build scalable solutions.
+              </p>
+
+              <h2>Experience</h2>
+              <p>2+ years preferred.</p>
+
+              <h2>What You’ll Love</h2>
+              <p>Growth, flexibility, and a strong tech culture.</p>
+
+              <h2>About Dwelledge</h2>
+              <p>Innovation-driven platform for skill growth.</p>
+            </div>
+
+            {/* APPLY BUTTON */}
+            <div className="popup-actions">
+              <button
+                className="apply-btn"
+                onClick={() =>
+                  navigate("/apply", { state: selectedJob })
+                }
+              >
+                Apply →
+              </button>
+            </div>
+
+            <span
+              className="close-btn"
+              onClick={() => setSelectedJob(null)}
+            >
+              ✖
+            </span>
           </div>
         </div>
       )}
 
+      <Footer />
     </div>
   );
 }
