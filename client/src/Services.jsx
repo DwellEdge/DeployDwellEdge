@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import Navbar from './Navbar';
+import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 
 const services = [
   {
@@ -29,45 +29,46 @@ const services = [
   {
     id: "healthcare-domain-solutions",
     title: "Healthcare Domain Solutions",
-    description: "Developing specialized applications for healthcare providers, focusing on compliance and patient care.",
+    description: "Developing specialized applications for healthcare providers.",
     icon: "🏥",
   },
   {
     id: "ecommerce-application-development",
     title: "e-Commerce Application Development",
-    description: "Building secure, scalable online shopping platforms with integrated payment and inventory systems.",
+    description: "Building scalable online shopping platforms.",
     icon: "🛒",
   },
   {
     id: "hotel-hospitality-applications",
     title: "Hotel & Hospitality Applications",
-    description: "Crafting solutions for booking, reservations, and customer engagement in the hospitality industry.",
+    description: "Solutions for booking and hospitality management.",
     icon: "🏨",
   },
 ];
 
 function Services() {
   return (
-    <div>
-
+    <div className="services-page">
       <Navbar />
 
-      <div className="services-page">
+      {/* IMPORTANT spacing for fixed navbar */}
+      <div style={{ paddingTop: "120px" }}>
+        
         <div className="services-header">
           <h1 className="services-title">Our Services</h1>
-          <div className="services-underline"></div>
         </div>
 
         <div className="services-wrapper">
+          
           <div className="services-row-4">
             {services.slice(0, 4).map((service) => (
               <Link to={`/services/${service.id}`} key={service.id} className="service-card-link">
                 <div className="service-card">
                   <div className="service-icon-wrapper">
-                    <span className="service-emoji">{service.icon}</span>
+                    <span>{service.icon}</span>
                   </div>
-                  <h3 className="service-card-title">{service.title}</h3>
-                  <p className="service-card-desc">{service.description}</p>
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
                 </div>
               </Link>
             ))}
@@ -78,17 +79,17 @@ function Services() {
               <Link to={`/services/${service.id}`} key={service.id} className="service-card-link">
                 <div className="service-card">
                   <div className="service-icon-wrapper">
-                    <span className="service-emoji">{service.icon}</span>
+                    <span>{service.icon}</span>
                   </div>
-                  <h3 className="service-card-title">{service.title}</h3>
-                  <p className="service-card-desc">{service.description}</p>
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
                 </div>
               </Link>
             ))}
           </div>
+
         </div>
       </div>
-
     </div>
   );
 }
