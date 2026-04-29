@@ -12,31 +12,28 @@ app.use(cors());
 app.use(express.json());
 
 /* ================= CONFIG ================= */
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001; // 🔥 changed to 5001 to avoid conflict
 const JWT_SECRET = process.env.JWT_SECRET || "secret123";
 
-/* ================= DB CONNECT ================= */
+/* ================= CHECK ENV ================= */
 if (!process.env.ATLAS_URI) {
   console.error("❌ ATLAS_URI missing in .env file");
   process.exit(1);
 }
 
+/* ================= DB CONNECT ================= */
 mongoose.connect(process.env.ATLAS_URI)
   .then(() => {
     console.log("✅ MongoDB Connected");
-
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
-
   })
   .catch(err => {
     console.log("❌ DB Connection Error:", err.message);
+    process.exit(1);
   });
 
 /* ================= SCHEMAS ================= */
 
-// 🔐 USER
+// USER
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -45,24 +42,22 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-
-// 💼 CAREERS (USED BY ADMIN UI)
+// CAREERS
 const careerSchema = new mongoose.Schema({
-  jobTitle: String,
-  requiredSkills: String,
-  description: String,
-  department: String,
-  location: String,
+  jobTitle: { type: String, required: true },
+  requiredSkills: { type: String, default: "" },
+  description: { type: String, default: "" },
+  department: { type: String, default: "" },
+  location: { type: String, default: "" },
   type: { type: String, default: "Full-time" },
   isActive: { type: Boolean, default: true },
-  createdBy: Number,
+  createdBy: { type: Number, default: 1 },
   createdDate: { type: Date, default: Date.now }
 });
 
 const Career = mongoose.model("Career", careerSchema, "careersCollection");
 
-
-// 📄 APPLICATIONS
+// APPLICATIONS
 const applicationSchema = new mongoose.Schema({
   jobId: { type: mongoose.Schema.Types.ObjectId, required: true },
   firstName: String,
@@ -79,30 +74,12 @@ const applicationSchema = new mongoose.Schema({
 
 const Application = mongoose.model("Application", applicationSchema, "CareerApplications");
 
-
-/* ================= AUTH MIDDLEWARE ================= */
-
-const authMiddleware = (req, res, next) => {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
-
-  if (!token) return res.status(401).json({ message: "No token" });
-
-  try {
-    req.user = jwt.verify(token, JWT_SECRET);
-    next();
-  } catch {
-    res.status(401).json({ message: "Invalid token" });
-  }
-};
-
-
 /* ================= ROUTES ================= */
 
-// TEST
+// ROOT
 app.get("/", (req, res) => {
   res.send("🚀 API Running Successfully");
 });
-
 
 /* ================= AUTH ================= */
 
@@ -112,18 +89,16 @@ app.post("/api/auth/register", async (req, res) => {
     const { email, password } = req.body;
 
     const exists = await User.findOne({ email });
-    if (exists) return res.status(400).json({ message: "User exists" });
+    if (exists) return res.status(400).json({ message: "User already exists" });
 
     const hashed = await bcrypt.hash(password, 10);
     const user = await User.create({ email, password: hashed });
 
     res.json({ message: "User created", user });
-
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 // LOGIN
 app.post("/api/auth/login", async (req, res) => {
@@ -136,56 +111,57 @@ app.post("/api/auth/login", async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(400).json({ message: "Invalid credentials" });
 
-    user.loginHistory.push({ date: new Date() });
-    await user.save();
-
     const token = jwt.sign(
       { id: user._id, email: user.email },
       JWT_SECRET,
       { expiresIn: "8h" }
     );
 
-    res.json({ token, email: user.email });
+    res.json({ token });
 
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-
 /* ================= CAREERS ================= */
 
-// GET ALL
+// GET JOBS
 app.get("/careers", async (req, res) => {
   try {
     const jobs = await Career.find().sort({ createdDate: -1 });
+
+    console.log("📦 Jobs from DB:", jobs.length);
+
     res.json(jobs);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
-// ADD
+// ADD JOB
 app.post("/careers", async (req, res) => {
   try {
-    const job = await Career.create(req.body);
-    res.json(job); // 🔥 IMPORTANT (frontend needs full object)
+    const job = new Career(req.body);
+    await job.save();
+
+    res.json(job); // ✅ return full object
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
-// DELETE
+// DELETE JOB
 app.delete("/careers/:id", async (req, res) => {
   try {
     await Career.findByIdAndDelete(req.params.id);
     res.json({ message: "Deleted successfully" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
-// UPDATE
+// UPDATE JOB
 app.patch("/careers/:id", async (req, res) => {
   try {
     const updated = await Career.findByIdAndUpdate(
@@ -193,40 +169,28 @@ app.patch("/careers/:id", async (req, res) => {
       req.body,
       { new: true }
     );
+
     res.json(updated);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
-
 /* ================= APPLICATION ================= */
 
-// APPLY
 app.post("/apply", async (req, res) => {
   try {
-    const application = await Application.create({
+    const application = new Application({
       ...req.body,
       jobId: new mongoose.Types.ObjectId(req.body.jobId)
     });
 
-    res.json({ message: "Application submitted", application });
-
+    await application.save();
+    res.json({ message: "Application submitted" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
-
-// GET APPLICATIONS
-app.get("/applications", async (req, res) => {
-  try {
-    const apps = await Application.find();
-    res.json(apps);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
 
 /* ================= DB TEST ================= */
 
@@ -236,5 +200,20 @@ app.get("/test-db", async (req, res) => {
     res.send("✅ DB Connected");
   } catch {
     res.send("❌ DB NOT Connected");
+  }
+});
+
+/* ================= START SERVER ================= */
+
+// 🔥 HANDLE PORT IN USE ERROR
+const server = app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
+
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.log(`❌ Port ${PORT} already in use. Try another port.`);
+  } else {
+    console.log("❌ Server Error:", err);
   }
 });

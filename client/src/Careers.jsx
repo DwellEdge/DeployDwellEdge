@@ -13,7 +13,7 @@ function Careers() {
 
   /* 🔥 FETCH JOBS */
   useEffect(() => {
-    fetch("http://localhost:5000/careers")
+    fetch("http://localhost:5001/careers")
       .then((res) => res.json())
       .then((data) => {
         console.log("API DATA:", data);

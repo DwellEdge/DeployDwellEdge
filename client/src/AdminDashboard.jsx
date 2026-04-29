@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./innerpages.css";
 
-const API = "http://localhost:5000";
+const API = "http://localhost:5001"; // ✅ FIXED: was 5000
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -16,6 +16,10 @@ function AdminDashboard() {
   const [passwordForm, setPasswordForm] = useState({ current: "", newPass: "", confirm: "" });
   const [passwordError, setPasswordError] = useState("");
 
+  // ✅ NEW: Edit states
+  const [editJob, setEditJob] = useState(null);
+  const [editForm, setEditForm] = useState({});
+
   const adminEmail = localStorage.getItem("adminEmail") || "admin@dwelledge.com";
   const token = localStorage.getItem("token");
 
@@ -27,7 +31,6 @@ function AdminDashboard() {
     setTimeout(() => setToast(null), 3000);
   };
 
-
   useEffect(() => {
     fetchJobs();
   }, []);
@@ -36,19 +39,16 @@ function AdminDashboard() {
     try {
       const res = await fetch(`${API}/careers`);
       const data = await res.json();
-
       setJobs(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false); // ✅ IMPORTANT
+      setLoading(false);
     }
   };
 
-
   const handleAdd = async (e) => {
     e.preventDefault();
-
     try {
       const newJob = {
         jobTitle: form.title,
@@ -62,40 +62,55 @@ function AdminDashboard() {
 
       const res = await fetch(`${API}/careers`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newJob)
       });
 
       if (!res.ok) throw new Error("Failed to add job");
 
       showToast("Job added successfully");
-
       setShowForm(false);
       setForm(emptyForm);
-
-      fetchJobs(); // ✅ REFRESH DATA
-
+      fetchJobs();
     } catch (err) {
       showToast(err.message, "error");
     }
   };
 
+  // ✅ NEW: Edit handler
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`${API}/careers/${editJob._id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          jobTitle: editForm.title,
+          requiredSkills: editForm.requirements,
+          description: editForm.description,
+          department: editForm.department,
+          location: editForm.location,
+          type: editForm.type,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to update job");
+
+      showToast("Job updated successfully");
+      setEditJob(null);
+      fetchJobs();
+    } catch (err) {
+      showToast(err.message, "error");
+    }
+  };
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`${API}/careers/${id}`, {
-        method: "DELETE"
-      });
-
+      const res = await fetch(`${API}/careers/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete");
-
       setJobs(jobs.filter((j) => j._id !== id));
       setDeleteConfirm(null);
-
       showToast("Job deleted");
-
     } catch (err) {
       showToast(err.message, "error");
     }
@@ -103,22 +118,15 @@ function AdminDashboard() {
 
   const handleToggle = async (id) => {
     const job = jobs.find((j) => j._id === id);
-
     try {
       const res = await fetch(`${API}/careers/${id}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isActive: !job.isActive })
       });
-
       const updated = await res.json();
-
       setJobs(jobs.map((j) => (j._id === id ? updated : j)));
-
       showToast("Status updated");
-
     } catch (err) {
       showToast(err.message, "error");
     }
@@ -141,12 +149,10 @@ function AdminDashboard() {
       setPasswordError("Password must be at least 6 characters.");
       return;
     }
-
     showToast("Password changed successfully!");
     setShowChangePassword(false);
     setPasswordForm({ current: "", newPass: "", confirm: "" });
   };
-
 
   const activeJobs = jobs.filter((j) => j.isActive).length;
 
@@ -157,7 +163,6 @@ function AdminDashboard() {
           {toast.type === "error" ? "⚠" : "✓"} {toast.msg}
         </div>
       )}
-
 
       <aside className="admin-sidebar">
         <div className="admin-sidebar-top">
@@ -188,7 +193,6 @@ function AdminDashboard() {
         </div>
       </aside>
 
-
       <main className="admin-main">
         <div className="admin-header">
           <div>
@@ -197,7 +201,6 @@ function AdminDashboard() {
           </div>
           <button className="admin-add-btn" onClick={() => setShowForm(true)}>+ Add New Job</button>
         </div>
-
 
         <div className="admin-stats">
           {[
@@ -213,23 +216,16 @@ function AdminDashboard() {
           ))}
         </div>
 
-
         <div className="admin-table-wrapper">
           <div className="admin-table-header">
             <h2 className="admin-table-title">All Listings</h2>
-
-            <button
-              className="admin-add-btn"
-              onClick={() => setShowForm(true)}
-            >
+            <button className="admin-add-btn" onClick={() => setShowForm(true)}>
               + Add New Job
             </button>
           </div>
 
           {loading ? (
-            <div className="admin-empty">
-              <p>Loading jobs...</p>
-            </div>
+            <div className="admin-empty"><p>Loading jobs...</p></div>
           ) : jobs.length === 0 ? (
             <div className="admin-empty">
               <div className="admin-empty-icon">💼</div>
@@ -251,7 +247,6 @@ function AdminDashboard() {
                 {jobs.map((job) => (
                   <tr key={job._id} className={!job.isActive ? "admin-row-inactive" : ""}>
                     <td>
-
                       <div className="admin-job-title">{job.jobTitle || job.title}</div>
                       <div className="admin-job-desc">{(job.description || "").substring(0, 60)}...</div>
                     </td>
@@ -266,7 +261,24 @@ function AdminDashboard() {
                         {job.isActive ? "● Active" : "○ Inactive"}
                       </button>
                     </td>
+                    {/* ✅ NEW: Edit + Delete buttons */}
                     <td>
+                      <button
+                        className="admin-edit-btn"
+                        onClick={() => {
+                          setEditJob(job);
+                          setEditForm({
+                            title: job.jobTitle || job.title,
+                            department: job.department,
+                            location: job.location,
+                            type: job.type,
+                            description: job.description,
+                            requirements: job.requiredSkills,
+                          });
+                        }}
+                      >
+                        ✏ Edit
+                      </button>
                       <button className="admin-delete-btn" onClick={() => setDeleteConfirm(job._id)}>
                         🗑 Delete
                       </button>
@@ -279,7 +291,7 @@ function AdminDashboard() {
         </div>
       </main>
 
-
+      {/* Profile Modal */}
       {showProfile && (
         <div className="admin-modal-overlay" onClick={() => setShowProfile(false)}>
           <div className="admin-modal admin-profile-modal" onClick={(e) => e.stopPropagation()}>
@@ -328,7 +340,7 @@ function AdminDashboard() {
         </div>
       )}
 
-
+      {/* Change Password Modal */}
       {showChangePassword && (
         <div className="admin-modal-overlay" onClick={() => setShowChangePassword(false)}>
           <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
@@ -362,7 +374,7 @@ function AdminDashboard() {
         </div>
       )}
 
-
+      {/* Add Job Modal */}
       {showForm && (
         <div className="admin-modal-overlay" onClick={() => setShowForm(false)}>
           <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
@@ -418,7 +430,64 @@ function AdminDashboard() {
         </div>
       )}
 
+      {/* ✅ NEW: Edit Job Modal */}
+      {editJob && (
+        <div className="admin-modal-overlay" onClick={() => setEditJob(null)}>
+          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-header">
+              <h2 className="admin-modal-title">Edit Job</h2>
+              <button className="admin-modal-close" onClick={() => setEditJob(null)}>✕</button>
+            </div>
+            <form className="admin-form" onSubmit={handleEdit}>
+              <div className="admin-form-row">
+                <div className="admin-form-field">
+                  <label>Job Title *</label>
+                  <input type="text" value={editForm.title}
+                    onChange={e => setEditForm({ ...editForm, title: e.target.value })} required />
+                </div>
+                <div className="admin-form-field">
+                  <label>Department *</label>
+                  <input type="text" value={editForm.department}
+                    onChange={e => setEditForm({ ...editForm, department: e.target.value })} required />
+                </div>
+              </div>
+              <div className="admin-form-row">
+                <div className="admin-form-field">
+                  <label>Location *</label>
+                  <input type="text" value={editForm.location}
+                    onChange={e => setEditForm({ ...editForm, location: e.target.value })} required />
+                </div>
+                <div className="admin-form-field">
+                  <label>Job Type</label>
+                  <select value={editForm.type}
+                    onChange={e => setEditForm({ ...editForm, type: e.target.value })}>
+                    <option>Full-time</option>
+                    <option>Part-time</option>
+                    <option>Contract</option>
+                    <option>Remote</option>
+                  </select>
+                </div>
+              </div>
+              <div className="admin-form-field">
+                <label>Description *</label>
+                <textarea rows={4} value={editForm.description}
+                  onChange={e => setEditForm({ ...editForm, description: e.target.value })} required />
+              </div>
+              <div className="admin-form-field">
+                <label>Requirements <span>(comma separated)</span></label>
+                <input type="text" value={editForm.requirements}
+                  onChange={e => setEditForm({ ...editForm, requirements: e.target.value })} />
+              </div>
+              <div className="admin-form-actions">
+                <button type="button" className="admin-cancel-btn" onClick={() => setEditJob(null)}>Cancel</button>
+                <button type="submit" className="admin-submit-btn">Save Changes →</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
+      {/* Delete Confirm Modal */}
       {deleteConfirm && (
         <div className="admin-modal-overlay" onClick={() => setDeleteConfirm(null)}>
           <div className="admin-modal admin-modal-sm" onClick={(e) => e.stopPropagation()}>
