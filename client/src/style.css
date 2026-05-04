@@ -95,8 +95,8 @@ nav {
 
 /* LOGO IMAGE */
 .logo-img {
-  width: 80px;   /* 🔥 increase size */
-  height: 80px;
+  width: 70px;   /* 🔥 increase size */
+  height: 70px;
   object-fit: contain;
 }
 
