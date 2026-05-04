@@ -51,11 +51,11 @@ function Services() {
     <div className="services-page">
       <Navbar />
 
-      {/* IMPORTANT spacing for fixed navbar */}
+      
       <div style={{ paddingTop: "120px" }}>
         
         <div className="services-header">
-          <h1 className="services-title">Our Services</h1>
+          <h1 className="services-title">Our <em>Services</em></h1>
         </div>
 
         <div className="services-wrapper">

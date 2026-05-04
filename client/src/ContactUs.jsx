@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "./style.css";
 
-import video from "./vedioes/Motion-dots.mp4";
+
 
 function ContactUsPage() {
     return (
@@ -13,24 +13,23 @@ function ContactUsPage() {
 
             <main className="contact-shell">
 
-                {/* 🔥 BREADCRUMBS */}
                 <div className="contact-breadcrumbs">
-                    <video autoPlay loop muted className="bg-video">
-                        <source src={video} type="video/mp4" />
-                    </video>
+                    
+                
                     <span>Home</span> › <span>Contact Us</span>
                 </div>
 
-                <h1>Contact Us</h1>
+                <h1>Contact <em>Us</em></h1>
 
                 <p className="contact-intro">
                     To request more information about our products and services,
                     please complete the form below.
                 </p>
+                <div className="section-divider"/>
 
                 <section className="contact-layout">
 
-                    {/* 🔥 FORM */}
+                    {/* FORM */}
                     <form className="contact-form">
 
                         <div className="contact-grid">
@@ -72,7 +71,7 @@ function ContactUsPage() {
 
                     </form>
 
-                    {/* 🔥 SIDEBAR */}
+                    {/*  SIDEBAR */}
                     <aside className="contact-sidebar">
 
                         <div className="hq-card">

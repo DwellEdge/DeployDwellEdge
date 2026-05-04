@@ -16,7 +16,7 @@ function Login() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch("http://localhost:5001/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -51,7 +51,7 @@ function Login() {
         <div className="login-left">
           <div className="login-brand">
             <h1 className="login-brand-name">
-              DWELLEDGE <span>Tech</span>
+              DWELLEDGE 
             </h1>
             <p className="login-brand-tagline">Employee Portal</p>
           </div>

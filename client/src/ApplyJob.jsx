@@ -4,7 +4,7 @@ import "./style.css";
 import { Link, useLocation } from "react-router-dom";
 
 function ApplyJob() {
-    const location = useLocation();   // 🔥 get job from previous page
+    const location = useLocation();   
     const job = location.state;
 
     const [user, setUser] = useState({
@@ -31,7 +31,7 @@ function ApplyJob() {
       body: JSON.stringify(user)
     });
 
-    const text = await res.text();   // 🔥 safer
+    const text = await res.text();   
     console.log("RAW RESPONSE:", text);
 
     const data = text ? JSON.parse(text) : {};

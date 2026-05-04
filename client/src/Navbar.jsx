@@ -9,7 +9,7 @@ function Navbar() {
       {/* LOGO */}
       <div className="logo-container">
         <img src={dwelledgeLogo} alt="logo" className="logo-img" />
-        <Link to="/" className="logo-text">DWELLEDGE</Link>
+                  <p className="logo-text">DWELLEDGE</p>
       </div>
 
       {/* NAV LINKS */}
@@ -20,15 +20,10 @@ function Navbar() {
           <li><Link to="/services">Services</Link></li>
           <li><Link to="/careers">Careers</Link></li>
           <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/login">Employee Login</Link></li>
         </ul>
       </nav>
 
-      {/* BUTTON */}
-      <div className="nav-buttons">
-        <Link to="/login" className="nav-btn primary">
-          Employee Login
-        </Link>
-      </div>
     </header>
   );
 }

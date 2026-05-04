@@ -11,14 +11,14 @@ function Careers() {
   const [selectedJob, setSelectedJob] = useState(null);
   const navigate = useNavigate();
 
-  /* 🔥 FETCH JOBS */
+  /* FETCH JOBS */
   useEffect(() => {
     fetch("http://localhost:5001/careers")
       .then((res) => res.json())
       .then((data) => {
         console.log("API DATA:", data);
 
-        // ✅ only active jobs
+        
         const activeJobs = Array.isArray(data)
           ? data.filter((j) => j.isActive !== false)
           : [];
@@ -31,7 +31,7 @@ function Careers() {
       });
   }, []);
 
-  /* 🔍 SEARCH FILTER */
+  /* SEARCH FILTER */
   const filteredJobs = jobs.filter((job) =>
     job.jobTitle?.toLowerCase().includes(search.toLowerCase())
   );
@@ -51,7 +51,7 @@ function Careers() {
           }}
         >
           <div className="overlay">
-            <h1>Find Your Dream Job</h1>
+            <h1>Find Your <em>Dream</em> Job</h1>
 
             <div className="search-box">
               <input
@@ -81,18 +81,18 @@ function Careers() {
                   <div>
                     <h2>{job.jobTitle} →</h2>
 
-                    {/* ✅ Skills */}
+                    {/*  Skills */}
                     <p className="job-skills">
                       <strong>Skills:</strong> {job.requiredSkills || "Not specified"}
                     </p>
 
-                    {/* ✅ Short description */}
+                    {/* Short description */}
                     <p className="job-short-desc">
                       {(job.description || "").substring(0, 100)}...
                     </p>
                   </div>
 
-                  {/* ✅ Extra info */}
+                  {/*  Extra info */}
                   <div className="job-meta">
                     <span>{job.department || "General"}</span>
                     <span>{job.location || "Remote"}</span>
@@ -116,7 +116,7 @@ function Careers() {
         </div>
       </div>
 
-      {/* 🔥 JOB POPUP */}
+      {/*  JOB POPUP */}
       {selectedJob && (
         <div
           className="job-popup-overlay"
