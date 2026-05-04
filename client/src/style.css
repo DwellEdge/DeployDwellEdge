@@ -86,6 +86,28 @@ nav {
   align-items: center;
 }
 
+/* LOGO CONTAINER */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* space between logo and text */
+}
+
+/* LOGO IMAGE */
+.logo-img {
+  width: 60px;   /* 🔥 increase size */
+  height: 60px;
+  object-fit: contain;
+}
+
+/* LOGO TEXT */
+.logo-text {
+  font-size: 26px;
+  font-weight: 700;
+  color: #f5c16c; /* gold shade */
+  margin: 0;
+}
+
 /* ===== HERO ===== */
 .hero-banner {
   position: relative;

@@ -23,7 +23,7 @@ function ApplyJob() {
   try {
     console.log("🚀 Sending:", user);
 
-    const res = await fetch("http://localhost:5000/apply", {
+    const res = await fetch("http://localhost:5001/apply", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

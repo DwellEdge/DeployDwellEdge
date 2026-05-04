@@ -8,8 +8,8 @@ function Navbar() {
     <header className="navbar">
       {/* LOGO */}
       <div className="logo-container">
-        <img src={dwelledgeLogo} alt="logo" className="logo-img" />
-                  <p className="logo-text">DWELLEDGE</p>
+        <img src={dwelledgeLogo} alt="Dwelledge Logo" className="logo-img" />
+        <h2 className="logo-text">DWELLEDGE</h2>
       </div>
 
       {/* NAV LINKS */}

@@ -113,7 +113,7 @@ function Home() {
 
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 5001);
 
     return () => {
       elements.forEach((el) => fadeObserver.unobserve(el));
