@@ -115,6 +115,7 @@ function EmployeePage() {
                   <th>Code</th>
                   <th>First Name</th>
                   <th>Last Name</th>
+                  <th>Email</th>
                   <th>Mobile</th>
                   <th>DOB</th>
                   <th>DOJ</th>
@@ -136,6 +137,7 @@ function EmployeePage() {
                     <td>{emp.employee_code}</td>
                     <td>{emp.first_name}</td>
                     <td>{emp.last_name}</td>
+                    <td>{emp.email_id}</td> 
                     <td>{emp.mobile_number}</td>
                     <td>{emp.date_of_birth?.slice(0, 10)}</td>
                     <td>{emp.date_of_joining?.slice(0, 10)}</td>

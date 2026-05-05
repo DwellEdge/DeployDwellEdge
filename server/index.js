@@ -80,6 +80,7 @@ const employeeSchema = new mongoose.Schema({
   first_name: String,
   last_name: String,
   mobile_number: String,
+  email_id: String,
   date_of_birth: Date,
   date_of_joining: Date,
   designation: String,
