@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./innerpages.css";
+import dwelledgeLogo from "./images/dwelledgeimage.png";
 
 const API = "http://localhost:5001";
 
@@ -14,7 +15,8 @@ function AdminDashboard() {
   const [showProfile, setShowProfile] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [passwordForm, setPasswordForm] = useState({ current: "", newPass: "", confirm: "" });
-  const [passwordError, setPasswordError] = useState(""); 
+  const [passwordError, setPasswordError] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const [editJob, setEditJob] = useState(null);
   const [editForm, setEditForm] = useState({});
@@ -37,6 +39,12 @@ function AdminDashboard() {
   };
 
   useEffect(() => { fetchJobs(); }, []);
+
+  useEffect(() => {
+    const close = () => setShowDropdown(false);
+    if (showDropdown) document.addEventListener("click", close);
+    return () => document.removeEventListener("click", close);
+  }, [showDropdown]);
 
   const fetchJobs = async () => {
     try {
@@ -77,7 +85,6 @@ function AdminDashboard() {
     }
   };
 
-  
   const handleEditClick = (job) => {
     setEditJob(job);
     setEditForm({
@@ -179,6 +186,53 @@ function AdminDashboard() {
   return (
     <div className="admin-page">
 
+      {/* ===== ADMIN NAVBAR ===== */}
+      <header className="admin-topnav">
+        <div className="admin-topnav-logo">
+          <img src={dwelledgeLogo} alt="Dwelledge" className="admin-topnav-logo-img" />
+          <span className="admin-topnav-logo-text">DWELLEDGE</span>
+        </div>
+
+        <nav className="admin-topnav-links">
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/services">Services</Link>
+          <Link to="/careers">Careers</Link>
+          <Link to="/contact">Contact</Link>
+        </nav>
+
+        <div className="admin-topnav-profile" onClick={(e) => { e.stopPropagation(); setShowDropdown(!showDropdown); }}>
+          <div className="admin-topnav-avatar">
+            {adminEmail.charAt(0).toUpperCase()}
+          </div>
+          
+          <span className="admin-topnav-caret">{showDropdown ? "▲" : "▼"}</span>
+
+          {showDropdown && (
+            <div className="admin-topnav-dropdown" onClick={(e) => e.stopPropagation()}>
+              <div className="admin-dropdown-header">
+                <div className="admin-dropdown-avatar">{adminEmail.charAt(0).toUpperCase()}</div>
+                <div>
+                  <div className="admin-dropdown-email">{adminEmail}</div>
+                  <div className="admin-dropdown-role">Administrator</div>
+                </div>
+              </div>
+              <hr className="admin-dropdown-divider" />
+              <button className="admin-dropdown-item" onClick={() => { setShowDropdown(false); setShowProfile(true); }}>
+                👤 My Profile
+              </button>
+              <button className="admin-dropdown-item" onClick={() => { setShowDropdown(false); setShowChangePassword(true); }}>
+                🔒 Change Password
+              </button>
+              <hr className="admin-dropdown-divider" />
+              <button className="admin-dropdown-item admin-dropdown-logout" onClick={handleLogout}>
+                ↩ Logout
+              </button>
+            </div>
+          )}
+        </div>
+      </header>
+
       {/* ===== TOAST ===== */}
       {toast && (
         <div className={`admin-toast ${toast.type === "error" ? "admin-toast-error" : ""}`}>
@@ -202,7 +256,6 @@ function AdminDashboard() {
         </div>
 
         <div>
-          
           <div
             className="admin-user-card"
             onClick={() => setShowProfile(true)}
@@ -291,7 +344,6 @@ function AdminDashboard() {
                     <td>{job.location}</td>
                     <td><span className="admin-type-tag">{job.type}</span></td>
                     <td>
-                      
                       <button
                         className={`admin-status-btn ${job.isActive ? "active" : "inactive"}`}
                         onClick={() => handleToggle(job._id)}
@@ -300,7 +352,6 @@ function AdminDashboard() {
                       </button>
                     </td>
                     <td>
-                
                       <button
                         className="admin-edit-btn"
                         onClick={() => handleEditClick(job)}

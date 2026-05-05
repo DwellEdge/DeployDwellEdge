@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./innerpages.css";
-import Navbar from "./Navbar";
-
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -24,7 +22,8 @@ function Login() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Login failed");
       localStorage.setItem("token", data.token);
-      localStorage.setItem("adminEmail", data.email);
+      localStorage.setItem("adminEmail", data.email || email);
+      window.dispatchEvent(new Event("storage"));
       navigate("/admin");
     } catch (err) {
       setError(err.message);
@@ -35,24 +34,18 @@ function Login() {
 
   return (
     <div className="login-page">
-  <Navbar />
-      
       <div className="login-bg-circle login-bg-circle-1" />
       <div className="login-bg-circle login-bg-circle-2" />
       <div className="login-bg-letter">D</div>
 
-      
       <Link to="/" className="login-back-link">
         ← Back to Home
       </Link>
 
       <div className="login-container">
-        
         <div className="login-left">
           <div className="login-brand">
-            <h1 className="login-brand-name">
-              DWELLEDGE 
-            </h1>
+            <h1 className="login-brand-name">DWELLEDGE</h1>
             <p className="login-brand-tagline">Employee Portal</p>
           </div>
 
@@ -79,7 +72,6 @@ function Login() {
           </div>
         </div>
 
-        
         <div className="login-right">
           <div className="login-form-wrapper">
             <div className="login-form-header">
