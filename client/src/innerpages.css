@@ -1976,3 +1976,236 @@ body {
   text-align: center;
   border-top:2px solid #c9924a;
 }
+
+
+/* ================= ADMIN TOP NAVBAR ================= */
+.admin-topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: rgba(10, 8, 6, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px 0 60px;
+  z-index: 1000;
+}
+
+/* Logo */
+.admin-topnav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.admin-topnav-logo-img {
+  height: 38px;
+  width: auto;
+}
+
+.admin-topnav-logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+/* Nav Links */
+.admin-topnav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  
+}
+
+.admin-topnav-links a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+  font-family: 'Epilogue', sans-serif;
+}
+
+.admin-topnav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: #c9924a;
+  transition: width 0.3s ease;
+}
+
+.admin-topnav-links a:hover {
+  color: #ffffff;
+}
+
+.admin-topnav-links a:hover::after {
+  width: 100%;
+}
+
+/* Profile Button */
+.admin-topnav-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+  padding: 6px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(201, 146, 74, 0.3);
+  background: rgba(201, 146, 74, 0.08);
+  transition: background 0.3s, border-color 0.3s;
+  user-select: none;
+}
+
+.admin-topnav-profile:hover {
+  background: rgba(201, 146, 74, 0.15);
+  border-color: rgba(201, 146, 74, 0.5);
+}
+
+.admin-topnav-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #c9924a;
+  color: #1a1612;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  flex-shrink: 0;
+}
+
+.admin-topnav-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Epilogue', sans-serif;
+}
+
+.admin-topnav-caret {
+  font-size: 8px;
+  color: rgba(201, 146, 74, 0.7);
+  margin-left: 2px;
+}
+
+/* Dropdown */
+.admin-topnav-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 260px;
+  background: #1a1612;
+  border: 1px solid rgba(201, 146, 74, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(10, 8, 6, 0.5);
+  padding: 8px;
+  z-index: 1100;
+  animation: dropdownFade 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.admin-dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px 14px;
+}
+
+.admin-dropdown-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #c9924a;
+  color: #1a1612;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.admin-dropdown-email {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f5f0e8;
+  word-break: break-all;
+  font-family: 'Epilogue', sans-serif;
+}
+
+.admin-dropdown-role {
+  font-size: 11px;
+  color: rgba(245, 240, 232, 0.35);
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-family: 'Epilogue', sans-serif;
+}
+
+.admin-dropdown-divider {
+  border: none;
+  border-top: 1px solid rgba(201, 146, 74, 0.12);
+  margin: 4px 0;
+}
+
+.admin-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(245, 240, 232, 0.75);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s, color 0.2s;
+  font-family: 'Epilogue', sans-serif;
+  letter-spacing: 0.2px;
+}
+
+.admin-dropdown-item:hover {
+  background: rgba(201, 146, 74, 0.1);
+  color: #f5f0e8;
+}
+
+.admin-dropdown-logout {
+  color: rgba(196, 83, 58, 0.8);
+}
+
+.admin-dropdown-logout:hover {
+  background: rgba(196, 83, 58, 0.12);
+  color: #e06050;
+}
+
+/* Adjust sidebar & main to sit below the 90px topnav */
+.admin-page {
+  padding-top: 90px;
+}
+
+.admin-sidebar {
+  top: 90px !important;
+  height: calc(100vh - 90px) !important;
+}

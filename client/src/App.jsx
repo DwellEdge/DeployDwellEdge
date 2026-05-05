@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "./Home";
 import Careers from "./Careers";
@@ -11,10 +11,13 @@ import Navbar from "./Navbar";
 import Services from "./Services";
 import ServiceData from "./ServiceData";
 
-function App() {
+function AppLayout() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
+
   return (
-    <Router>
-      <Navbar />
+    <>
+      {!isAdmin && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/careers" element={<Careers />} />
@@ -26,6 +29,14 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/services/:serviceId" element={<ServiceData />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppLayout />
     </Router>
   );
 }
