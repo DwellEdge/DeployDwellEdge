@@ -10,6 +10,7 @@ import AdminDashboard from "./AdminDashboard";
 import Navbar from "./Navbar";
 import Services from "./Services";
 import ServiceData from "./ServiceData";
+import JobListing from "./JobListing";
 
 function AppLayout() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function AppLayout() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/services" element={<Services />} />
         <Route path="/services/:serviceId" element={<ServiceData />} />
+        <Route path="/admin/JobListing" element={<JobListing/>}/>
       </Routes>
     </>
   );
