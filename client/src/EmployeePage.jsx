@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import "./innerpages.css";
+import dwelledgeLogo from "./images/dwelledgeimage.png";
+import { Link } from "react-router-dom";
+import React, { useState } from "react";
+
 
 const API = "http://localhost:5001";
 
 function EmployeePage() {
     const [employees, setEmployees] = useState([]);
-    const [showProfile, setShowProfile] = useState(false); // ✅ FIX
+    const [showProfile, setShowProfile, showDropdown, setShowDropdown] = useState(false); // ✅ FIX
     const navigate = useNavigate();
 
     // ✅ FIX: define adminEmail
@@ -42,7 +46,56 @@ function EmployeePage() {
     };
 
     return (
+
         <div className="admin-page">
+
+      {/* ===== ADMIN NAVBAR ===== */}
+      <header className="admin-topnav">
+        <div className="admin-topnav-logo">
+          <img src={dwelledgeLogo} alt="Dwelledge" className="admin-topnav-logo-img" />
+          <span className="admin-topnav-logo-text">DWELLEDGE</span>
+        </div>
+
+        <nav className="admin-topnav-links">
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/services">Services</Link>
+          <Link to="/careers">Careers</Link>
+          <Link to="/contact">Contact</Link>
+        </nav>
+
+        <div className="admin-topnav-profile" onClick={(e) => { e.stopPropagation(); setShowDropdown(!showDropdown); }}>
+          <div className="admin-topnav-avatar">
+            {adminEmail.charAt(0).toUpperCase()}
+          </div>
+          
+          <span className="admin-topnav-caret">{showDropdown ? "▲" : "▼"}</span>
+
+          {showDropdown && (
+            <div className="admin-topnav-dropdown" onClick={(e) => e.stopPropagation()}>
+              <div className="admin-dropdown-header">
+                <div className="admin-dropdown-avatar">{adminEmail.charAt(0).toUpperCase()}</div>
+                <div>
+                  <div className="admin-dropdown-email">{adminEmail}</div>
+                  <div className="admin-dropdown-role">Administrator</div>
+                </div>
+              </div>
+              <hr className="admin-dropdown-divider" />
+              <button className="admin-dropdown-item" onClick={() => { setShowDropdown(false); setShowProfile(true); }}>
+                👤 My Profile
+              </button>
+              <button className="admin-dropdown-item" onClick={() => { setShowDropdown(false); setShowChangePassword(true); }}>
+                🔒 Change Password
+              </button>
+              <hr className="admin-dropdown-divider" />
+              <button className="admin-dropdown-item admin-dropdown-logout" onClick={handleLogout}>
+                ↩ Logout
+              </button>
+            </div>
+          )}
+        </div>
+      </header>
+
 
             {/* ===== SIDEBAR ===== */}
             <aside className="admin-sidebar">

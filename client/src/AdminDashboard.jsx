@@ -6,6 +6,7 @@ import dwelledgeLogo from "./images/dwelledgeimage.png";
 const API = "http://localhost:5001";
 
 function AdminDashboard() {
+  const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
