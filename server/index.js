@@ -74,6 +74,102 @@ const applicationSchema = new mongoose.Schema({
 
 const Application = mongoose.model("Application", applicationSchema, "CareerApplications");
 
+// 👨‍💼 EMPLOYEE MODEL
+const employeeSchema = new mongoose.Schema({
+  employee_code: { type: String, required: true, unique: true },
+  first_name: String,
+  last_name: String,
+  mobile_number: String,
+  email_id: String,
+  date_of_birth: Date,
+  date_of_joining: Date,
+  designation: String,
+  employment_type: String,
+  work_location: String,
+  status: { type: String, default: "Active" },
+  date_of_exit: Date,
+  created_date: { type: Date, default: Date.now },
+  updated_date: { type: Date, default: Date.now }
+});
+
+const Employee = mongoose.model("Employee", employeeSchema, "EmployeeDetails");
+
+/* ================= EMPLOYEES ================= */
+
+// GET all employees
+// GET ALL EMPLOYEES
+app.get("/api/employees", async (req, res) => {
+  const data = await Employee.find();
+  res.json(data);
+});
+
+// ADD EMPLOYEE
+app.post("/api/employees", async (req, res) => {
+  const emp = await Employee.create(req.body);
+  res.json(emp);
+});
+
+// DELETE
+app.delete("/api/employees/:id", async (req, res) => {
+  await Employee.findByIdAndDelete(req.params.id);
+  res.json({ message: "Deleted" });
+});
+
+// UPDATE employee
+app.patch("/employees/:id", async (req, res) => {
+  const emp = await Employee.findByIdAndUpdate(
+    req.params.id,
+    { ...req.body, updated_date: new Date() },
+    { new: true }
+  );
+  res.json(emp);
+});
+
+// 👨‍💼 FOUNDERS MODEL
+const founderSchema = new mongoose.Schema({
+  founder_id: String,
+  founder_name: String,
+  first_name: String,
+  last_name: String,
+  status: String,
+  created_date: { type: Date, default: Date.now },
+  updated_date: { type: Date, default: Date.now }
+});
+
+const Founder = mongoose.model("Founder", founderSchema, "FounderDetails");
+
+/* ================= FOUNDERS ================= */
+
+// GET ALL
+app.get("/api/founders", async (req, res) => {
+  try {
+    const founders = await Founder.find().sort({ created_date: -1 });
+    res.json(founders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ADD
+app.post("/api/founders", async (req, res) => {
+  try {
+    const founder = await Founder.create(req.body);
+    res.json(founder);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DELETE
+app.delete("/api/founders/:id", async (req, res) => {
+  try {
+    await Founder.findByIdAndDelete(req.params.id);
+    res.json({ message: "Deleted" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 /* ================= ROUTES ================= */
 
 // ROOT

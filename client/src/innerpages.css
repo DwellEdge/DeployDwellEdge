@@ -1238,6 +1238,24 @@ body {
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ================= ADMIN DASHBOARD ================= */
+/* FIX PAGE LAYOUT */
+.admin-page {
+  display: flex;
+}
+
+/* FIX MAIN CONTENT */
+.admin-main {
+  margin-left: 240px; /* same as sidebar width */
+  padding: 100px 40px 40px; /* top spacing for navbar */
+  width: 100%;
+}
+
+/* FIX TABLE WRAPPER */
+
+.admin-table-wrapper {
+  margin-top: 20px;
+}
+
 .admin-page {
   display: flex;
   min-height: 100vh;

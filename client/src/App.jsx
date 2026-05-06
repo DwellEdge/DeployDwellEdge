@@ -10,6 +10,8 @@ import AdminDashboard from "./AdminDashboard";
 import Navbar from "./Navbar";
 import Services from "./Services";
 import ServiceData from "./ServiceData";
+import EmployeePage from "./EmployeePage";
+import Founders from "./Founders";
 
 function AppLayout() {
   const location = useLocation();
@@ -28,6 +30,8 @@ function AppLayout() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/services" element={<Services />} />
         <Route path="/services/:serviceId" element={<ServiceData />} />
+        <Route path="/admin/employees" element={<EmployeePage />} />
+        <Route path="/admin/founders" element={<Founders />} />
       </Routes>
     </>
   );

@@ -15,8 +15,7 @@ function AdminDashboard() {
   const [showProfile, setShowProfile] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [passwordForm, setPasswordForm] = useState({ current: "", newPass: "", confirm: "" });
-  const [passwordError, setPasswordError] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [passwordError, setPasswordError] = useState(""); 
 
   const [editJob, setEditJob] = useState(null);
   const [editForm, setEditForm] = useState({});
@@ -85,6 +84,7 @@ function AdminDashboard() {
     }
   };
 
+  
   const handleEditClick = (job) => {
     setEditJob(job);
     setEditForm({
@@ -252,10 +252,23 @@ function AdminDashboard() {
           </div>
           <div className="admin-nav">
             <div className="admin-nav-item admin-nav-active">💼 Job Listings</div>
+            <div
+              className="admin-nav-item"
+              onClick={() => navigate("/admin/employees")}
+            >
+              👨‍💼 Employees
+            </div>
+            <div
+              className="admin-nav-item"
+              onClick={() => navigate("/admin/founders")}
+            >
+              🏢 Founders
+            </div>
           </div>
         </div>
 
         <div>
+          
           <div
             className="admin-user-card"
             onClick={() => setShowProfile(true)}
@@ -270,6 +283,7 @@ function AdminDashboard() {
             </div>
             <span className="admin-profile-arrow">›</span>
           </div>
+
           <button className="admin-logout-btn" onClick={handleLogout}>
             ↩ Logout
           </button>
@@ -344,6 +358,7 @@ function AdminDashboard() {
                     <td>{job.location}</td>
                     <td><span className="admin-type-tag">{job.type}</span></td>
                     <td>
+                      
                       <button
                         className={`admin-status-btn ${job.isActive ? "active" : "inactive"}`}
                         onClick={() => handleToggle(job._id)}
@@ -352,6 +367,7 @@ function AdminDashboard() {
                       </button>
                     </td>
                     <td>
+                
                       <button
                         className="admin-edit-btn"
                         onClick={() => handleEditClick(job)}
