@@ -90,12 +90,12 @@ nav {
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 12px; /* space between logo and text */
+  gap: 12px; 
 }
 
 /* LOGO IMAGE */
 .logo-img {
-  width: 80px;   /* 🔥 increase size */
+  width: 80px;  
   height: 80px;
   object-fit: contain;
 }
@@ -104,7 +104,7 @@ nav {
 .logo-text {
   font-size: 26px;
   font-weight: 700;
-  color: #f5c16c; /* gold shade */
+  color: #f5c16c; 
   margin: 0;
 }
 
@@ -1364,4 +1364,38 @@ em {
   background: var(--gold);
   border-radius: 999px;
   margin: 0 0 40px 0;
+}
+
+
+
+
+/* ===== NAVBAR AVATAR (when logged in) ===== */
+.navbar-avatar-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-avatar-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #c9924a;
+  color: #1a1612;
+  border: 2px solid rgba(201, 146, 74, 0.5);
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  /* No background shift — blends with dark navbar */
+}
+
+.navbar-avatar-btn:hover {
+  transform: scale(1.08);
+  border-color: #c9924a;
+  box-shadow: 0 0 0 3px rgba(201, 146, 74, 0.2);
 }
