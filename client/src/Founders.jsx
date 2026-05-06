@@ -4,12 +4,10 @@ import "./innerpages.css";
 
 const API = "http://localhost:5001";
 
-function EmployeePage() {
-    const [employees, setEmployees] = useState([]);
-    const [showProfile, setShowProfile] = useState(false); // ✅ FIX
+function Founders() {
+    const [founders, setFounders] = useState([]);
     const navigate = useNavigate();
 
-    // ✅ FIX: define adminEmail
     const storedEmail = localStorage.getItem("adminEmail");
 
     const adminEmail =
@@ -17,28 +15,29 @@ function EmployeePage() {
             ? storedEmail
             : "admin@dwelledge.com";
 
-    // ✅ FIX: logout function
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("adminEmail");
-        navigate("/login");
-    };
-
     // 🔥 FETCH DATA
     useEffect(() => {
-        fetch(`${API}/api/employees`)
+        fetch(`${API}/api/founders`)
             .then((res) => res.json())
             .then((data) => {
-                console.log("EMP DATA:", data);
-                setEmployees(Array.isArray(data) ? data : []);
+                console.log("FOUNDERS:", data);
+                setFounders(Array.isArray(data) ? data : []);
             })
             .catch((err) => console.error(err));
     }, []);
 
     // 🗑 DELETE
     const handleDelete = async (id) => {
-        await fetch(`${API}/api/employees/${id}`, { method: "DELETE" });
-        setEmployees(employees.filter((e) => e._id !== id));
+        await fetch(`${API}/api/founders/${id}`, { method: "DELETE" });
+        setFounders(founders.filter((f) => f._id !== id));
+    };
+
+    const [showProfile, setShowProfile] = useState(false);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("adminEmail");
+        navigate("/login");
     };
 
     return (
@@ -104,7 +103,6 @@ function EmployeePage() {
                 </div>
 
             </aside>
-
             {showProfile && (
                 <div className="admin-modal-overlay" onClick={() => setShowProfile(false)}>
                     <div
@@ -161,39 +159,33 @@ function EmployeePage() {
                     </div>
                 </div>
             )}
+
             {/* ===== MAIN ===== */}
-            <main className="admin-main">
+            <main main className="admin-main" >
                 <div className="admin-header">
                     <div>
                         <p className="admin-header-eyebrow">ADMIN DASHBOARD</p>
-                        <h1 className="admin-header-title">Employee Management</h1>
+                        <h1 className="admin-header-title">Founders Management</h1>
                     </div>
                 </div>
 
                 <div className="admin-table-wrapper">
-                    <h2 className="admin-table-title">All Employees</h2>
+                    <h2 className="admin-table-title">All Founders</h2>
 
-                    {employees.length === 0 ? (
+                    {founders.length === 0 ? (
                         <div className="admin-empty">
-                            <p>No employees found</p>
+                            <p>No founders found</p>
                         </div>
                     ) : (
                         <table className="admin-table">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Code</th>
+                                    <th>Founder ID</th>
+                                    <th>Founder Name</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
-                                    <th>Email</th>
-                                    <th>Mobile</th>
-                                    <th>DOB</th>
-                                    <th>DOJ</th>
-                                    <th>Designation</th>
-                                    <th>Type</th>
-                                    <th>Location</th>
                                     <th>Status</th>
-                                    <th>Exit</th>
                                     <th>Created</th>
                                     <th>Updated</th>
                                     <th>Actions</th>
@@ -201,28 +193,21 @@ function EmployeePage() {
                             </thead>
 
                             <tbody>
-                                {employees.map((emp) => (
-                                    <tr key={emp._id}>
-                                        <td>{emp._id?.slice(-5)}</td>
-                                        <td>{emp.employee_code}</td>
-                                        <td>{emp.first_name}</td>
-                                        <td>{emp.last_name}</td>
-                                        <td>{emp.email_id}</td>
-                                        <td>{emp.mobile_number}</td>
-                                        <td>{emp.date_of_birth?.slice(0, 10)}</td>
-                                        <td>{emp.date_of_joining?.slice(0, 10)}</td>
-                                        <td>{emp.designation}</td>
-                                        <td>{emp.employment_type}</td>
-                                        <td>{emp.work_location}</td>
-                                        <td>{emp.status}</td>
-                                        <td>{emp.date_of_exit?.slice(0, 10) || "-"}</td>
-                                        <td>{emp.created_date?.slice(0, 10)}</td>
-                                        <td>{emp.updated_date?.slice(0, 10)}</td>
+                                {founders.map((f) => (
+                                    <tr key={f._id}>
+                                        <td>{f._id?.slice(-5)}</td>
+                                        <td>{f.founder_id}</td>
+                                        <td>{f.founder_name}</td>
+                                        <td>{f.first_name}</td>
+                                        <td>{f.last_name}</td>
+                                        <td>{f.status}</td>
+                                        <td>{f.created_date?.slice(0, 10)}</td>
+                                        <td>{f.updated_date?.slice(0, 10)}</td>
 
                                         <td>
                                             <button
                                                 className="admin-delete-btn"
-                                                onClick={() => handleDelete(emp._id)}
+                                                onClick={() => handleDelete(f._id)}
                                             >
                                                 🗑 Delete
                                             </button>
@@ -234,8 +219,8 @@ function EmployeePage() {
                     )}
                 </div>
             </main>
-        </div>
+        </div >
     );
 }
 
-export default EmployeePage;
+export default Founders;

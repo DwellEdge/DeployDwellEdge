@@ -197,14 +197,19 @@ function AdminDashboard() {
             </div>
           </div>
           <div className="admin-nav">
-            {/* NEW BUTTON */}
+            <div className="admin-nav-item admin-nav-active">💼 Job Listings</div>
             <div
               className="admin-nav-item"
               onClick={() => navigate("/admin/employees")}
             >
               👨‍💼 Employees
             </div>
-            <div className="admin-nav-item admin-nav-active">💼 Job Listings</div>
+            <div
+              className="admin-nav-item"
+              onClick={() => navigate("/admin/founders")}
+            >
+              🏢 Founders
+            </div>
           </div>
         </div>
 
@@ -224,6 +229,7 @@ function AdminDashboard() {
             </div>
             <span className="admin-profile-arrow">›</span>
           </div>
+
           <button className="admin-logout-btn" onClick={handleLogout}>
             ↩ Logout
           </button>

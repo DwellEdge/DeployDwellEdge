@@ -125,6 +125,51 @@ app.patch("/employees/:id", async (req, res) => {
   res.json(emp);
 });
 
+// 👨‍💼 FOUNDERS MODEL
+const founderSchema = new mongoose.Schema({
+  founder_id: String,
+  founder_name: String,
+  first_name: String,
+  last_name: String,
+  status: String,
+  created_date: { type: Date, default: Date.now },
+  updated_date: { type: Date, default: Date.now }
+});
+
+const Founder = mongoose.model("Founder", founderSchema, "FounderDetails");
+
+/* ================= FOUNDERS ================= */
+
+// GET ALL
+app.get("/api/founders", async (req, res) => {
+  try {
+    const founders = await Founder.find().sort({ created_date: -1 });
+    res.json(founders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ADD
+app.post("/api/founders", async (req, res) => {
+  try {
+    const founder = await Founder.create(req.body);
+    res.json(founder);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DELETE
+app.delete("/api/founders/:id", async (req, res) => {
+  try {
+    await Founder.findByIdAndDelete(req.params.id);
+    res.json({ message: "Deleted" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 /* ================= ROUTES ================= */
 
 // ROOT
