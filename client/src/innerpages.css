@@ -2227,3 +2227,281 @@ body {
   top: 90px !important;
   height: calc(100vh - 90px) !important;
 }
+
+
+
+/* ================= DASHBOARD PAGE ================= */
+.dashboard-page {
+  min-height: 100vh;
+  background: var(--cream);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.dashboard-page::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,146,74,0.18);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dashboard-page::after {
+  content: '';
+  position: absolute;
+  top: -70px;
+  right: -70px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,146,74,0.12);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ================= DASHBOARD HEADER ================= */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  position: relative;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.dashboard-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 32px;
+  right: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), rgba(201,146,74,0.15), transparent);
+}
+
+.dashboard-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--ink);
+  letter-spacing: -2px;
+  margin: 0;
+}
+
+.dashboard-title em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+/* ================= DASHBOARD WRAPPER ================= */
+.dashboard-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px 120px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ================= DASHBOARD ROW ================= */
+.dashboard-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* ================= DASHBOARD CARD LINK ================= */
+.dashboard-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= DASHBOARD CARD ================= */
+.dashboard-card {
+  border-radius: 20px;
+  padding: 40px 28px;
+  position: relative;
+  min-height: 220px;
+  box-shadow: 0 2px 16px rgba(26,22,18,0.06);
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid rgba(26,22,18,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  transition: transform 0.35s ease,
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.dashboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+  z-index: 1;
+}
+
+.dashboard-card::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  right: -60px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,146,74,0.1);
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  opacity: 0;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(201,146,74,0.18), 0 4px 16px rgba(26,22,18,0.08);
+  border-color: rgba(201,146,74,0.4);
+}
+
+.dashboard-card:hover::before {
+  transform: scaleX(1);
+}
+
+.dashboard-card:hover::after {
+  opacity: 1;
+}
+
+/* ================= DASHBOARD CARD CONTENT ================= */
+.dashboard-card-icon {
+  width: 52px;
+  height: 52px;
+  background: rgba(201,146,74,0.12);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  transition: background 0.35s ease, transform 0.35s ease;
+}
+
+.dashboard-card:hover .dashboard-card-icon {
+  background: rgba(201,146,74,0.22);
+  transform: scale(1.08);
+}
+
+.dashboard-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  line-height: 1.3;
+}
+
+.dashboard-card p {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  max-width: 260px;
+}
+
+.dashboard-card-arrow {
+  display: inline-block;
+  color: var(--gold);
+  font-size: 18px;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover .dashboard-card-arrow {
+  transform: translate(4px, -4px);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .dashboard-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 580px) {
+  .dashboard-row {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-wrapper {
+    padding: 0 20px 80px;
+  }
+
+  .dashboard-header {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .dashboard-header::after {
+    left: 20px;
+    right: 20px;
+  }
+}
+
+
+/* Full width main when no sidebar */
+.admin-main-full {
+  margin-left: 0 !important;
+  width: 100%;
+  padding: 40px 48px;
+}
+
+/* Back button */
+.admin-back-btn {
+  background: none;
+  border: 1px solid rgba(26,22,18,0.15);
+  padding: 9px 20px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(26,22,18,0.6);
+  font-family: 'Epilogue', sans-serif;
+  transition: all 0.2s;
+}
+
+.admin-back-btn:hover {
+  background: rgba(201,146,74,0.08);
+  border-color: rgba(201,146,74,0.4);
+  color: #1a1612;
+}
