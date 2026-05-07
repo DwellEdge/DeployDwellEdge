@@ -1,4 +1,4 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./innerpages.css";
 import dwelledgeLogo from "./images/dwelledgeimage.png";
@@ -44,54 +44,54 @@ function Founders() {
     };
 
     return (
-            <div className="admin-page">
-            
-                  {/* ===== ADMIN NAVBAR ===== */}
-                  <header className="admin-topnav">
-                    <div className="admin-topnav-logo">
-                      <img src={dwelledgeLogo} alt="Dwelledge" className="admin-topnav-logo-img" />
-                      <span className="admin-topnav-logo-text">DWELLEDGE</span>
-                    </div>
-            
-                    <nav className="admin-topnav-links">
-                      <Link to="/">Home</Link>
-                      <Link to="/about">About</Link>
-                      <Link to="/services">Services</Link>
-                      <Link to="/careers">Careers</Link>
-                      <Link to="/contact">Contact</Link>
-                    </nav>
-            
-                    <div className="admin-topnav-profile" onClick={(e) => { e.stopPropagation(); setShowDropdown(!showDropdown); }}>
-                      <div className="admin-topnav-avatar">
+        <div className="admin-page">
+
+            {/* ===== ADMIN NAVBAR ===== */}
+            <header className="admin-topnav">
+                <div className="admin-topnav-logo">
+                    <img src={dwelledgeLogo} alt="Dwelledge" className="admin-topnav-logo-img" />
+                    <span className="admin-topnav-logo-text">DWELLEDGE</span>
+                </div>
+
+                <nav className="admin-topnav-links">
+                    <Link to="/">Home</Link>
+                    <Link to="/about">About</Link>
+                    <Link to="/services">Services</Link>
+                    <Link to="/careers">Careers</Link>
+                    <Link to="/contact">Contact</Link>
+                </nav>
+
+                <div className="admin-topnav-profile" onClick={(e) => { e.stopPropagation(); setShowDropdown(!showDropdown); }}>
+                    <div className="admin-topnav-avatar">
                         {adminEmail.charAt(0).toUpperCase()}
-                      </div>
-                      
-                      <span className="admin-topnav-caret">{showDropdown ? "▲" : "▼"}</span>
-            
-                      {showDropdown && (
-                        <div className="admin-topnav-dropdown" onClick={(e) => e.stopPropagation()}>
-                          <div className="admin-dropdown-header">
-                            <div className="admin-dropdown-avatar">{adminEmail.charAt(0).toUpperCase()}</div>
-                            <div>
-                              <div className="admin-dropdown-email">{adminEmail}</div>
-                              <div className="admin-dropdown-role">Administrator</div>
-                            </div>
-                          </div>
-                          <hr className="admin-dropdown-divider" />
-                          <button className="admin-dropdown-item" onClick={() => { setShowDropdown(false); setShowProfile(true); }}>
-                            👤 My Profile
-                          </button>
-                          <button className="admin-dropdown-item" onClick={() => { setShowDropdown(false); setShowChangePassword(true); }}>
-                            🔒 Change Password
-                          </button>
-                          <hr className="admin-dropdown-divider" />
-                          <button className="admin-dropdown-item admin-dropdown-logout" onClick={handleLogout}>
-                            ↩ Logout
-                          </button>
-                        </div>
-                      )}
                     </div>
-                  </header>
+
+                    <span className="admin-topnav-caret">{showDropdown ? "▲" : "▼"}</span>
+
+                    {showDropdown && (
+                        <div className="admin-topnav-dropdown" onClick={(e) => e.stopPropagation()}>
+                            <div className="admin-dropdown-header">
+                                <div className="admin-dropdown-avatar">{adminEmail.charAt(0).toUpperCase()}</div>
+                                <div>
+                                    <div className="admin-dropdown-email">{adminEmail}</div>
+                                    <div className="admin-dropdown-role">Administrator</div>
+                                </div>
+                            </div>
+                            <hr className="admin-dropdown-divider" />
+                            <button className="admin-dropdown-item" onClick={() => { setShowDropdown(false); setShowProfile(true); }}>
+                                👤 My Profile
+                            </button>
+                            <button className="admin-dropdown-item" onClick={() => { setShowDropdown(false); setShowChangePassword(true); }}>
+                                🔒 Change Password
+                            </button>
+                            <hr className="admin-dropdown-divider" />
+                            <button className="admin-dropdown-item admin-dropdown-logout" onClick={handleLogout}>
+                                ↩ Logout
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </header>
 
             {/* ===== SIDEBAR ===== */}
             <aside className="admin-sidebar">
@@ -108,21 +108,21 @@ function Founders() {
 
                     <div className="admin-nav">
                         <div
-                            className={`admin-nav-item ${window.location.pathname === "/admin" ? "admin-nav-active" : ""}`}
-                            onClick={() => navigate("/admin")}
+                            className={`admin-nav-item ${window.location.pathname === "/admin/JobListing" ? "admin-nav-active" : ""}`}
+                            onClick={() => navigate("/admin/JobListing")}
                         >
                             💼 Job Listings
                         </div>
 
                         <div
-                            className={`admin-nav-item ${window.location.pathname === "/admin/employees" ? "admin-nav-active" : ""}`}
-                            onClick={() => navigate("/admin/employees")}
+                            className={`admin-nav-item ${window.location.pathname === "/admin/EmployeePage" ? "admin-nav-active" : ""}`}
+                            onClick={() => navigate("/admin/employeepage")}
                         >
                             👨‍💼 Employees
                         </div>
 
                         <div
-                            className={`admin-nav-item ${window.location.pathname === "/admin/founders" ? "admin-nav-active" : ""}`}
+                            className={`admin-nav-item ${window.location.pathname === "/admin/Founders" ? "admin-nav-active" : ""}`}
                             onClick={() => navigate("/admin/founders")}
                         >
                             🏢 Founders
@@ -153,6 +153,7 @@ function Founders() {
                 </div>
 
             </aside>
+
             {showProfile && (
                 <div className="admin-modal-overlay" onClick={() => setShowProfile(false)}>
                     <div
@@ -212,9 +213,17 @@ function Founders() {
 
             {/* ===== MAIN ===== */}
             <main main className="admin-main" >
+                {/* Back to Dashboard Button */}
+                <button
+                    className="admin-back-btn"
+                    onClick={() => navigate("/admin")}
+                >
+                    ← Back to Dashboard
+                </button>
+
                 <div className="admin-header">
                     <div>
-                        <p className="admin-header-eyebrow">ADMIN DASHBOARD</p>
+                        <p className="admin-header-eyebrow">FOUNDERS</p>
                         <h1 className="admin-header-title">Founders Management</h1>
                     </div>
                 </div>

@@ -8,12 +8,12 @@ const dashboardItems = [
     description: "Building scalable, secure, and customized enterprise solutions to streamline business operations.",
   },
   {
-    id: "Employee Dashboard",
+    id: "EmployeePage",
     title: "Employee Dashboard",
     description: "Ensuring smooth performance, bug fixes, and ongoing support for mission-critical applications.",
   },
   {
-    id: "Founders Dashboard",
+    id: "Founders",
     title: "Founders Dashboard",
     description: "Creating responsive, user-friendly web apps tailored to client needs.",
   },

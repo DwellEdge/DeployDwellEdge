@@ -238,8 +238,71 @@ function JobListing() {
         </div>
       )}
 
-      {/* ===== MAIN (full width, no sidebar) ===== */}
-      <main className="admin-main admin-main-full">
+      
+
+      {/* ===== SIDEBAR ===== */}
+            <aside className="admin-sidebar">
+
+                {/* TOP SECTION */}
+                <div>
+                    <div className="admin-logo">
+                        <span className="admin-logo-mark">D</span>
+                        <div>
+                            <div className="admin-logo-name">DWELLEDGE</div>
+                            <div className="admin-logo-sub">Admin Panel</div>
+                        </div>
+                    </div>
+
+                    <div className="admin-nav">
+                        <div
+                            className={`admin-nav-item ${window.location.pathname === "/admin/JobListing" ? "admin-nav-active" : ""}`}
+                            onClick={() => navigate("/admin/JobListing")}
+                        >
+                            💼 Job Listings
+                        </div>
+
+                        <div
+                            className={`admin-nav-item ${window.location.pathname === "/admin/EmployeePage" ? "admin-nav-active" : ""}`}
+                            onClick={() => navigate("/admin/employeepage")}
+                        >
+                            👨‍💼 Employees
+                        </div>
+
+                        <div
+                            className={`admin-nav-item ${window.location.pathname === "/admin/Founders" ? "admin-nav-active" : ""}`}
+                            onClick={() => navigate("/admin/founders")}
+                        >
+                            🏢 Founders
+                        </div>
+                    </div>
+                </div>
+
+                {/* BOTTOM SECTION */}
+                <div>
+                    <div
+                        className="admin-user-card"
+                        onClick={() => setShowProfile(true)}
+                        style={{ cursor: "pointer" }}
+                    >
+                        <div className="admin-user-avatar">
+                            {adminEmail?.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <div className="admin-user-email">{adminEmail}</div>
+                            <div className="admin-user-role">Administrator</div>
+                        </div>
+                        <span className="admin-profile-arrow">›</span>
+                    </div>
+
+                    <button className="admin-logout-btn" onClick={handleLogout}>
+                        ↩ Logout
+                    </button>
+                </div>
+
+            </aside>
+
+
+      <main className="admin-main">
 
         {/* Back to Dashboard Button */}
         <button
