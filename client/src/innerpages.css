@@ -2477,8 +2477,8 @@ body {
 
 /* Full width main when no sidebar */
 .admin-main-full {
-  margin-left: 0 !important;
-  width: 100%;
+  margin-left: 260px;
+  width: calc(100%-260px);
   padding: 40px 48px;
 }
 
