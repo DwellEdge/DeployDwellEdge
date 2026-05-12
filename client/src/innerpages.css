@@ -1252,10 +1252,6 @@ body {
 
 /* FIX TABLE WRAPPER */
 
-.admin-table-wrapper {
-  margin-top: 20px;
-}
-
 .admin-page {
   display: flex;
   min-height: 100vh;
@@ -1490,7 +1486,7 @@ body {
 .admin-table-wrapper {
   background: white;
   border-radius: 20px;
-  overflow: hidden;
+  overflow-x: auto;
   border: 1px solid rgba(26,22,18,0.06);
   box-shadow: 0 4px 24px rgba(26,22,18,0.06);
 }
