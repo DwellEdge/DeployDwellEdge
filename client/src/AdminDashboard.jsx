@@ -17,6 +17,11 @@ const dashboardItems = [
     title: "Founders Dashboard",
     description: "Creating responsive, user-friendly web apps tailored to client needs.",
   },
+  {
+    id: "Applicants",
+    title: "Applicants",
+    description: "View and manage job applications submitted by candidates.",
+  },
 ];
 
 function AdminDashboard() {
@@ -33,7 +38,7 @@ function AdminDashboard() {
 
         <div className="dashboard-wrapper">
           <div className="dashboard-row">
-            {dashboardItems.slice(0, 3).map((item) => (  
+            {dashboardItems.map((item) => (
               <Link
                 to={`/admin/${item.id}`}
                 key={item.id}

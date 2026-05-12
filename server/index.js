@@ -4,12 +4,30 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
+
+// MULTER CONFIG
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage });
 
 /* ================= CONFIG ================= */
 const PORT = process.env.PORT || 5001; // 🔥 changed to 5001 to avoid conflict
@@ -59,7 +77,7 @@ const Career = mongoose.model("Career", careerSchema, "careersCollection");
 
 // APPLICATIONS
 const applicationSchema = new mongoose.Schema({
-  jobId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  jobId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Career' },
   firstName: String,
   lastName: String,
   mobileNumber: String,
@@ -274,17 +292,63 @@ app.patch("/careers/:id", async (req, res) => {
 
 /* ================= APPLICATION ================= */
 
-app.post("/apply", async (req, res) => {
+app.post("/apply", upload.single('resume'), async (req, res) => {
   try {
-    const application = new Application({
+    const applicationData = {
       ...req.body,
-      jobId: new mongoose.Types.ObjectId(req.body.jobId)
-    });
+      jobId: new mongoose.Types.ObjectId(req.body.jobId),
+      resume: req.file ? req.file.filename : null
+    };
 
+    const application = new Application(applicationData);
     await application.save();
     res.json({ message: "Application submitted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+// GET ALL APPLICATIONS
+app.get("/api/applications", async (req, res) => {
+  try {
+    const applications = await Application.find().populate('jobId', 'jobTitle');
+    res.json(applications);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DOWNLOAD APPLICATION RESUME
+app.get("/api/applications/:id/resume", async (req, res) => {
+  try {
+    const application = await Application.findById(req.params.id).populate('jobId', 'jobTitle');
+    if (!application || !application.resume) {
+      return res.status(404).json({ error: "Resume not found" });
+    }
+
+    const originalName = application.resume;
+    const extension = path.extname(originalName) || ".pdf";
+    const jobTitle = application.jobId?.jobTitle || "job";
+    const fullName = `${application.firstName || "candidate"}_${application.lastName || ""}`.trim() || "candidate";
+    const safeName = `${jobTitle}_${fullName}_Resume${extension}`
+      .replace(/\s+/g, "_")
+      .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+    const filePath = path.join(__dirname, "uploads", originalName);
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ error: `File not found: ${originalName}` });
+    }
+
+    res.download(filePath, safeName, (err) => {
+      if (err) {
+        console.error("Resume download error:", err);
+        if (!res.headersSent) {
+          res.status(500).json({ error: "Unable to download resume" });
+        }
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
