@@ -1252,6 +1252,10 @@ body {
 
 /* FIX TABLE WRAPPER */
 
+.admin-table-wrapper {
+  margin-top: 20px;
+}
+
 .admin-page {
   display: flex;
   min-height: 100vh;
@@ -1486,7 +1490,7 @@ body {
 .admin-table-wrapper {
   background: white;
   border-radius: 20px;
-  overflow-x: auto;
+  overflow: hidden;
   border: 1px solid rgba(26,22,18,0.06);
   box-shadow: 0 4px 24px rgba(26,22,18,0.06);
 }
@@ -2506,14 +2510,14 @@ body {
 }
 
 
-/* Full width main when no sidebar */
+
 .admin-main-full {
   margin-left: 260px;
   width: calc(100%-260px);
   padding: 40px 48px;
 }
 
-/* Back button */
+
 .admin-back-btn {
   background: none;
   border: 1px solid rgba(26,22,18,0.15);
@@ -2536,3 +2540,279 @@ body {
   border-color: rgba(201,146,74,0.4);
   color: #1a1612;
 }
+
+
+/* =============== Service page ==================== */
+ 
+ 
+@media (max-width: 480px) {
+  .services-content {
+    padding: 90px 16px 48px;
+  }
+ 
+  .services-title {
+    font-size: 32px;
+    letter-spacing: -1px;
+  }
+ 
+  .services-eyebrow {
+    font-size: 12px;
+    letter-spacing: 3px;
+  }
+ 
+  .service-card {
+    padding: 28px 18px;
+    min-height: unset;
+  }
+}
+ 
+ 
+/* ================ Service details================= */
+ 
+@media (max-width: 768px) {
+  .sd-hero {
+    padding: 0 24px 20px;
+  }
+ 
+  .sd-hero-title {
+    font-size: 28px;
+    letter-spacing: -1px;
+  }
+ 
+  .sd-hero-tagline {
+    font-size: 16px;
+  }
+ 
+  .sd-body {
+    padding: 48px 24px 80px;
+  }
+ 
+  .sd-features {
+    grid-template-columns: 1fr;
+  }
+ 
+  .sd-cta {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 36px 24px;
+    gap: 24px;
+  }
+ 
+  .sd-cta-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+ 
+@media (max-width: 480px) {
+  .sd-section-title {
+    font-size: 20px;
+  }
+ 
+  .sd-description {
+    font-size: 15px;
+  }
+}
+ 
+ 
+/* =============About page================ */
+ 
+@media (max-width: 900px) {
+  .about-flex {
+    flex-direction: column;
+    padding: 36px 24px;
+    gap: 28px;
+  }
+ 
+  .about-flex-reverse {
+    flex-direction: column;
+  }
+ 
+  .about-image-wrapper {
+    width: 100%;
+  }
+ 
+  .about-image {
+    height: 260px;
+  }
+ 
+  .about-hero {
+    padding: 0 24px 20px;
+  }
+ 
+  .about-title {
+    font-size: 40px;
+    letter-spacing: -1px;
+  }
+ 
+  .about-divider {
+    margin: 0 24px;
+  }
+}
+ 
+@media (max-width: 480px) {
+  .about-hero-eyebrow {
+    padding-top: 80px;
+  }
+ 
+  .about-title {
+    font-size: 32px;
+  }
+ 
+  .about-tagline {
+    font-size: 16px;
+  }
+ 
+  .about-section-number {
+    font-size: 48px;
+  }
+}
+
+/* ============== Login page================= */
+ 
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    margin: 70px 16px;
+    min-height: unset;
+    border-radius: 16px;
+  }
+ 
+  .login-left {
+    padding: 36px 28px;
+  }
+ 
+  .login-left-title {
+    font-size: 26px;
+  }
+ 
+  
+  .login-features { display: none; }
+ 
+  .login-right {
+    padding: 36px 28px;
+  }
+ 
+  .login-form-wrapper {
+    max-width: 100%;
+  }
+ 
+  .login-form-title {
+    font-size: 28px;
+  }
+}
+ 
+@media (max-width: 480px) {
+  .login-back-link {
+    top: 16px;
+    left: 16px;
+  }
+}
+ 
+ 
+/* ============== Admin dashboard=============== */
+ 
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    width: 220px;
+  }
+ 
+  .admin-main,
+  .admin-main-full {
+    margin-left: 220px;
+  }
+}
+ 
+@media (max-width: 768px) {
+  
+  .admin-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    width: 260px;
+    z-index: 999;
+  }
+ 
+
+  .admin-sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+ 
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,22,18,0.5);
+    z-index: 998;
+  }
+ 
+  .sidebar-overlay.visible {
+    display: block;
+  }
+ 
+  .admin-main,
+  .admin-main-full {
+    margin-left: 0;
+    padding: 32px 20px;
+    width: 100%;
+  }
+ 
+  .admin-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+ 
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+ 
+  .admin-add-btn {
+    width: 100%;
+    text-align: center;
+  }
+ 
+  /* Make table horizontally scrollable */
+  .admin-table-wrapper {
+    overflow-x: auto;
+  }
+ 
+  .admin-table {
+    min-width: 600px;
+  }
+}
+ 
+@media (max-width: 480px) {
+  .admin-stats {
+    grid-template-columns: 1fr;
+  }
+ 
+  .admin-form-row {
+    grid-template-columns: 1fr;
+  }
+ 
+  .admin-modal {
+    border-radius: 12px;
+  }
+ 
+  .admin-modal-overlay {
+    padding: 16px;
+  }
+}
+ 
+ 
+/* ======Dashboard cards========== */
+ 
+ 
+@media (max-width: 480px) {
+  .dashboard-title {
+    font-size: 32px;
+    letter-spacing: -1px;
+  }
+ 
+  .dashboard-card {
+    padding: 28px 20px;
+    min-height: 180px;
+  }
+}
+ 
