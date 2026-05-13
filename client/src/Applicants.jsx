@@ -391,7 +391,7 @@ function Applicants() {
         {/* STATS */}
 
         <div className="admin-stats">
-
+          
           <div className="admin-stat-card">
             <div className="admin-stat-icon">📄</div>
             <div className="admin-stat-value">
@@ -400,19 +400,8 @@ function Applicants() {
             <div className="admin-stat-label">
               Total Applications
             </div>
-          </div>
-
-          <div className="admin-stat-card">
-            <div className="admin-stat-icon">📥</div>
-            <div className="admin-stat-value">
-              {applications.filter(a => a.resume).length}
-            </div>
-            <div className="admin-stat-label">
-              Resumes Uploaded
             </div>
           </div>
-
-        </div>
 
         {/* TABLE */}
 

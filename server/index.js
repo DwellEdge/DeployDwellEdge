@@ -16,16 +16,16 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 
 // MULTER CONFIG
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
+    cb(null, Date.now() + "-" + file.originalname);
+  },
 });
 const upload = multer({ storage });
 
@@ -40,11 +40,12 @@ if (!process.env.ATLAS_URI) {
 }
 
 /* ================= DB CONNECT ================= */
-mongoose.connect(process.env.ATLAS_URI)
+mongoose
+  .connect(process.env.ATLAS_URI)
   .then(() => {
     console.log("✅ MongoDB Connected");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log("❌ DB Connection Error:", err.message);
     process.exit(1);
   });
@@ -52,11 +53,14 @@ mongoose.connect(process.env.ATLAS_URI)
 /* ================= SCHEMAS ================= */
 
 // USER
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  loginHistory: [{ date: { type: Date, default: Date.now } }]
-}, { timestamps: true });
+const userSchema = new mongoose.Schema(
+  {
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    loginHistory: [{ date: { type: Date, default: Date.now } }],
+  },
+  { timestamps: true },
+);
 
 const User = mongoose.model("User", userSchema);
 
@@ -70,14 +74,18 @@ const careerSchema = new mongoose.Schema({
   type: { type: String, default: "Full-time" },
   isActive: { type: Boolean, default: true },
   createdBy: { type: Number, default: 1 },
-  createdDate: { type: Date, default: Date.now }
+  createdDate: { type: Date, default: Date.now },
 });
 
 const Career = mongoose.model("Career", careerSchema, "careersCollection");
 
 // APPLICATIONS
 const applicationSchema = new mongoose.Schema({
-  jobId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Career' },
+  jobId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Career",
+  },
   firstName: String,
   lastName: String,
   mobileNumber: String,
@@ -87,10 +95,14 @@ const applicationSchema = new mongoose.Schema({
   totalExperience: Number,
   relevantExperience: Number,
   resume: String,
-  submittedDate: { type: Date, default: Date.now }
+  submittedDate: { type: Date, default: Date.now },
 });
 
-const Application = mongoose.model("Application", applicationSchema, "CareerApplications");
+const Application = mongoose.model(
+  "Application",
+  applicationSchema,
+  "CareerApplications",
+);
 
 // 👨‍💼 EMPLOYEE MODEL
 const employeeSchema = new mongoose.Schema({
@@ -107,7 +119,7 @@ const employeeSchema = new mongoose.Schema({
   status: { type: String, default: "Active" },
   date_of_exit: Date,
   created_date: { type: Date, default: Date.now },
-  updated_date: { type: Date, default: Date.now }
+  updated_date: { type: Date, default: Date.now },
 });
 
 const Employee = mongoose.model("Employee", employeeSchema, "EmployeeDetails");
@@ -138,7 +150,7 @@ app.patch("/employees/:id", async (req, res) => {
   const emp = await Employee.findByIdAndUpdate(
     req.params.id,
     { ...req.body, updated_date: new Date() },
-    { new: true }
+    { new: true },
   );
   res.json(emp);
 });
@@ -151,7 +163,7 @@ const founderSchema = new mongoose.Schema({
   last_name: String,
   status: String,
   created_date: { type: Date, default: Date.now },
-  updated_date: { type: Date, default: Date.now }
+  updated_date: { type: Date, default: Date.now },
 });
 
 const Founder = mongoose.model("Founder", founderSchema, "FounderDetails");
@@ -219,22 +231,52 @@ app.post("/api/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    // ✅ CASE-INSENSITIVE EMAIL SEARCH
+    const user = await User.findOne({
+      email: {
+        $regex: new RegExp("^" + email + "$", "i"),
+      },
+    });
 
+    // ❌ USER NOT FOUND
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
+    }
+
+    // ✅ CHECK PASSWORD
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(400).json({ message: "Invalid credentials" });
 
+    if (!match) {
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
+    }
+
+    // ✅ TOKEN
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      {
+        id: user._id,
+        email: user.email,
+      },
       JWT_SECRET,
-      { expiresIn: "8h" }
+      {
+        expiresIn: "8h",
+      },
     );
 
-    res.json({ token });
-
+    // ✅ SUCCESS
+    res.json({
+      token,
+      email: user.email,
+    });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.log(err);
+
+    res.status(500).json({
+      message: err.message,
+    });
   }
 });
 
@@ -278,11 +320,9 @@ app.delete("/careers/:id", async (req, res) => {
 // UPDATE JOB
 app.patch("/careers/:id", async (req, res) => {
   try {
-    const updated = await Career.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const updated = await Career.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
 
     res.json(updated);
   } catch (err) {
@@ -292,12 +332,12 @@ app.patch("/careers/:id", async (req, res) => {
 
 /* ================= APPLICATION ================= */
 
-app.post("/apply", upload.single('resume'), async (req, res) => {
+app.post("/apply", upload.single("resume"), async (req, res) => {
   try {
     const applicationData = {
       ...req.body,
       jobId: new mongoose.Types.ObjectId(req.body.jobId),
-      resume: req.file ? req.file.filename : null
+      resume: req.file ? req.file.filename : null,
     };
 
     const application = new Application(applicationData);
@@ -311,7 +351,7 @@ app.post("/apply", upload.single('resume'), async (req, res) => {
 // GET ALL APPLICATIONS
 app.get("/api/applications", async (req, res) => {
   try {
-    const applications = await Application.find().populate('jobId', 'jobTitle');
+    const applications = await Application.find().populate("jobId", "jobTitle");
     res.json(applications);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -321,7 +361,10 @@ app.get("/api/applications", async (req, res) => {
 // DOWNLOAD APPLICATION RESUME
 app.get("/api/applications/:id/resume", async (req, res) => {
   try {
-    const application = await Application.findById(req.params.id).populate('jobId', 'jobTitle');
+    const application = await Application.findById(req.params.id).populate(
+      "jobId",
+      "jobTitle",
+    );
     if (!application || !application.resume) {
       return res.status(404).json({ error: "Resume not found" });
     }
@@ -329,7 +372,9 @@ app.get("/api/applications/:id/resume", async (req, res) => {
     const originalName = application.resume;
     const extension = path.extname(originalName) || ".pdf";
     const jobTitle = application.jobId?.jobTitle || "job";
-    const fullName = `${application.firstName || "candidate"}_${application.lastName || ""}`.trim() || "candidate";
+    const fullName =
+      `${application.firstName || "candidate"}_${application.lastName || ""}`.trim() ||
+      "candidate";
     const safeName = `${jobTitle}_${fullName}_Resume${extension}`
       .replace(/\s+/g, "_")
       .replace(/[^a-zA-Z0-9._-]/g, "_");
