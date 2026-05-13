@@ -13,6 +13,9 @@ import ServiceData from "./ServiceData";
 import JobListing from "./JobListing";
 import EmployeePage from "./EmployeePage";
 import Founders from "./Founders";
+import Applicants from "./Applicants";
+import ScrollToTop from "./ScrollToTop";
+
 
 function AppLayout() {
   const location = useLocation();
@@ -20,6 +23,7 @@ function AppLayout() {
 
   return (
     <>
+    <ScrollToTop />
       {!isAdmin && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -34,6 +38,7 @@ function AppLayout() {
         <Route path="/admin/JobListing" element={<JobListing/>}/>
         <Route path="/admin/employeepage" element={<EmployeePage />} />
         <Route path="/admin/founders" element={<Founders />} />
+        <Route path="/admin/Applicants" element={<Applicants />} />
       </Routes>
     </>
   );

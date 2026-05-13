@@ -227,16 +227,22 @@ function EmployeePage() {
                             💼 Job Listings
                         </div>
                         <div
-                            className={`admin-nav-item ${window.location.pathname === "/admin/EmployeePage" ? "admin-nav-active" : ""}`}
+                            className={`admin-nav-item ${window.location.pathname === "/admin/employeepage" ? "admin-nav-active" : ""}`}
                             onClick={() => navigate("/admin/employeepage")}
                         >
                             👨‍💼 Employees
                         </div>
                         <div
-                            className={`admin-nav-item ${window.location.pathname === "/admin/Founders" ? "admin-nav-active" : ""}`}
+                            className={`admin-nav-item ${window.location.pathname === "/admin/founders" ? "admin-nav-active" : ""}`}
                             onClick={() => navigate("/admin/founders")}
                         >
                             🏢 Founders
+                        </div>
+                        <div
+                            className={`admin-nav-item ${window.location.pathname === "/admin/Applicants" ? "admin-nav-active" : ""}`}
+                            onClick={() => navigate("/admin/Applicants")}
+                        >
+                            📄 Applications
                         </div>
                     </div>
                 </div>

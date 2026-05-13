@@ -35,7 +35,8 @@ function Founders() {
         setFounders(founders.filter((f) => f._id !== id));
     };
 
-    const [showProfile, setShowProfile, showDropdown, setShowDropdown] = useState(false); // ✅ FIX
+    const [showProfile, setShowProfile] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -115,19 +116,26 @@ function Founders() {
                         </div>
 
                         <div
-                            className={`admin-nav-item ${window.location.pathname === "/admin/EmployeePage" ? "admin-nav-active" : ""}`}
+                            className={`admin-nav-item ${window.location.pathname === "/admin/employeepage" ? "admin-nav-active" : ""}`}
                             onClick={() => navigate("/admin/employeepage")}
                         >
                             👨‍💼 Employees
                         </div>
 
                         <div
-                            className={`admin-nav-item ${window.location.pathname === "/admin/Founders" ? "admin-nav-active" : ""}`}
+                            className={`admin-nav-item ${window.location.pathname.toLowerCase() === "/admin/founders"
+                                    ? "admin-nav-active"
+                                    : ""
+                                }`}
                             onClick={() => navigate("/admin/founders")}
                         >
                             🏢 Founders
-                        </div>
-                    </div>
+                        </div>                   <div
+                            className={`admin-nav-item ${window.location.pathname === "/admin/Applicants" ? "admin-nav-active" : ""}`}
+                            onClick={() => navigate("/admin/Applicants")}
+                        >
+                            📄 Applications
+                        </div>                    </div>
                 </div>
 
                 {/* BOTTOM SECTION */}
