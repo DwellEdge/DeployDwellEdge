@@ -9,6 +9,7 @@ function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [adminEmail, setAdminEmail] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const checkAuth = () => {
@@ -31,6 +32,10 @@ function Navbar() {
 
   useEffect(() => {
     checkAuth();
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setMenuOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -61,8 +66,17 @@ function Navbar() {
         <img src={dwelledgeLogo} alt="Dwelledge Logo" className="logo-img" />
         <h2 className="logo-text">DWELLEDGE</h2>
       </div>
+ <button
+        className={`hamburger ${menuOpen ? "open" : ""}`}
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-      <nav>
+      <nav className={menuOpen ?"nav-open": " "}>
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About</Link></li>
