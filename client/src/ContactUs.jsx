@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
 import "./style.css";
 
 
@@ -95,9 +94,6 @@ function ContactUsPage() {
                 </section>
 
             </main>
-
-            <Footer />
-
         </div>
     );
 }
