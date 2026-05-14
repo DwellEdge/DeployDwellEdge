@@ -12,7 +12,7 @@ import slide4 from "./vedioes/peoplecoding.mp4";
 import slide5 from "./vedioes/keyboardtyping.mp4";
 import slide6 from "./vedioes/falling blocks.mp4";
 
-// Promo section videos (same as before)
+// Promo section videos 
 import video1 from "./vedioes/ai-animation-video.mp4";
 import video2 from "./vedioes/successful-marketing.mp4";
 
@@ -74,7 +74,7 @@ function Home() {
     v.play().catch(() => { });
   }, [current]);
 
-  // Force play promo videos on mount
+  // play promo videos on mount
   useEffect(() => {
     [promo1Ref, promo2Ref].forEach((ref) => {
       const v = ref.current;
@@ -342,7 +342,7 @@ function Home() {
       {/* ===== CAROUSEL ===== */}
       <section className="giftcard-section fade-up">
         <h2 className="giftcard-heading">Popular Development</h2>
-        
+
         <p className="giftcard-subheading">
           Explore our most popular development solutions, designed to help
           you achieve your goals faster and more efficiently.
