@@ -20,17 +20,24 @@ function Login() {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Login failed");
+
+      if (!res.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+
+      // ✅ SAVE LOGIN DATA
       localStorage.setItem("token", data.token);
-      localStorage.setItem("adminEmail", data.email || email);
-      window.dispatchEvent(new Event("storage"));
-      navigate("/admin");
+      localStorage.setItem("adminEmail", email);
+
+      // ✅ FORCE REFRESH AUTH STATE
+      window.location.href = "/admin";
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="login-page">
