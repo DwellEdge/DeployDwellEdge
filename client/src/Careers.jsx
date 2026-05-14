@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import bgImage from "./images/career-image.jpg";
 import "./style.css";
-import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 
 function Careers() {
@@ -178,8 +177,6 @@ function Careers() {
           </div>
         </div>
       )}
-
-      <Footer />
     </div>
   );
 }

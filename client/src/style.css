@@ -23,6 +23,7 @@ html, body {
   overflow-x: hidden;
   overflow-y: scroll;
   scrollbar-gutter: stable;
+  height: auto;
 }
 
 img, video, iframe {
@@ -586,9 +587,10 @@ em { color: var(--gold); }
 /* ===== CAREERS ===== */
 .career-page {
   background: var(--cream);
-  min-height: 100vh;
+  min-height: unset;
+  height: auto;
   color: var(--ink);
-  overflow: visible; /* FIX: no independent scroll */
+  overflow: visible; 
 }
 
 .career-hero {
@@ -886,7 +888,8 @@ em { color: var(--gold); }
 .contact-page {
   background: var(--cream);
   color: var(--ink);
-  min-height: 100vh;
+  min-height: unset;
+  height: auto;
   overflow: visible; 
 }
 
