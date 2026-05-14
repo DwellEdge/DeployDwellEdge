@@ -63,8 +63,8 @@ function Navbar() {
   return (
     <header className="navbar">
       <div className="logo-container">
-        <img src={dwelledgeLogo} alt="Dwelledge Logo" className="logo-img" />
-        <h2 className="logo-text">DWELLEDGE</h2>
+       < Link to ="/"> <img src={dwelledgeLogo} alt="Dwelledge Logo" className="logo-img" /></Link>
+        <h2 className="logo-text"><Link to="/">DWELLEDGE</Link></h2>
       </div>
  <button
         className={`hamburger ${menuOpen ? "open" : ""}`}
