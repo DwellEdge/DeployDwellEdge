@@ -1215,6 +1215,7 @@ body {
   background: #f0ebe0;
   font-family: 'Epilogue', sans-serif;
   padding-top: 90px;
+  overflow: visible; 
 }
 
 .admin-sidebar {
@@ -2396,6 +2397,7 @@ body {
   margin-left: 260px;
   width: calc(100% - 260px);
   padding: 40px 48px;
+  overflow: visible;
 }
 
 .admin-back-btn {
