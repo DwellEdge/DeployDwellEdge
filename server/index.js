@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     loginHistory: [{ date: { type: Date, default: Date.now } }],
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 const User = mongoose.model("User", userSchema);
@@ -146,8 +146,8 @@ app.delete("/api/employees/:id", async (req, res) => {
 });
 
 // UPDATE employee
-app.patch("/employees/:id", async (req, res) => {
-  const emp = await Employee.findByIdAndUpdate(
+app.patch("/api/employees/:id", async (req, res) => {
+    const emp = await Employee.findByIdAndUpdate(
     req.params.id,
     { ...req.body, updated_date: new Date() },
     { new: true },
