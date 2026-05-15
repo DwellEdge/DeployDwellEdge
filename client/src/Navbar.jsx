@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
 import dwelledgeLogo from "./images/dwelledgeimage.png";
 import "./style.css";
 
@@ -169,23 +169,23 @@ function Navbar() {
         <ul className="nav-links">
 
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/" end className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Home</NavLink>
           </li>
 
           <li>
-            <Link to="/about">About</Link>
+            <NavLink to="/about" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>About</NavLink>
           </li>
 
           <li>
-            <Link to="/services">Services</Link>
+            <NavLink to="/services" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Services</NavLink>
           </li>
 
           <li>
-            <Link to="/careers">Careers</Link>
+            <NavLink to="/careers" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Careers</NavLink>
           </li>
 
           <li>
-            <Link to="/contact">Contact</Link>
+            <NavLink to="/contact" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Contact</NavLink>
           </li>
 
           {/* ================= LOGIN / PROFILE ================= */}
