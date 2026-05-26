@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import nodemailer from "nodemailer";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -406,6 +407,85 @@ app.get("/test-db", async (req, res) => {
   } catch {
     res.send("❌ DB NOT Connected");
   }
+});
+
+/*=======Contactus========*/
+
+app.post("/contact", async (req, res) => {
+
+  try {
+
+    console.log("BODY:", req.body);
+
+    const {
+      fullName,
+      email,
+      organization,
+      mobile,
+      country,
+      jobTitle,
+      message
+    } = req.body;
+
+    const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+const mailOptions = {
+  from: process.env.EMAIL_USER,
+  to: process.env.EMAIL_TO || "triosntechies@gmail.com",
+  subject: "New Contact Form Submission",
+  html: `
+        <div style="font-family: Arial; padding: 20px;">
+
+          <h2 style="color:#333;">New Contact Request</h2>
+
+          <hr/>
+
+          <p><b>Full Name:</b> ${fullName}</p>
+
+          <p><b>Email:</b> ${email}</p>
+
+          <p><b>Organization:</b> ${organization}</p>
+
+          <p><b>Mobile:</b> ${mobile}</p>
+
+          <p><b>Country:</b> ${country}</p>
+
+          <p><b>Job Title:</b> ${jobTitle}</p>
+
+          <h3>Message:</h3>
+
+          <p>${message}</p>
+
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    console.log("✅ Email Sent");
+
+    res.status(200).json({
+      success: true,
+      message: "Email Sent Successfully"
+    });
+
+  } catch (err) {
+
+    console.log("❌ EMAIL ERROR:", err);
+
+    res.status(500).json({
+      success: false,
+      message: "Email Failed"
+    });
+
+  }
+
 });
 
 /* ================= START SERVER ================= */
