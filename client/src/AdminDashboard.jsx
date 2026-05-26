@@ -38,6 +38,7 @@ function AdminDashboard() {
   const [passwordError, setPasswordError] = useState("");
   const [showChangePassword, setShowChangePassword] = useState(false);
 
+  const API = "http://localhost:5001";
   const storedEmail = localStorage.getItem("adminEmail");
   const adminEmail =
     storedEmail && storedEmail !== "undefined"
@@ -51,16 +52,32 @@ function AdminDashboard() {
           return () => document.removeEventListener("click", close);
         }, [showDropdown]);
 
-        const handleChangePassword = (e) => {
+        const handleChangePassword = async (e) => {
     e.preventDefault();
     setPasswordError("");
     if (passwordForm.newPass !== passwordForm.confirm) {
       setPasswordError("New passwords do not match");
       return;
     }
-    showToast("Password changed successfully", "success");
-    setShowChangePassword(false);
-    setPasswordForm({ current: "", newPass: "", confirm: "" });
+
+    try {
+      const res = await fetch(`${API}/api/auth/change-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: adminEmail,
+          currentPassword: passwordForm.current,
+          newPassword: passwordForm.newPass,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Incorrect current password");
+      showToast("Password changed successfully", "success");
+      setShowChangePassword(false);
+      setPasswordForm({ current: "", newPass: "", confirm: "" });
+    } catch (err) {
+      setPasswordError(err.message);
+    }
   };
 
   const handleLogout = () => {

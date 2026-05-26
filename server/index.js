@@ -281,6 +281,40 @@ app.post("/api/auth/login", async (req, res) => {
   }
 });
 
+// CHANGE PASSWORD
+app.post("/api/auth/change-password", async (req, res) => {
+  try {
+    const { email, currentPassword, newPassword } = req.body;
+
+    if (!email || !currentPassword || !newPassword) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const user = await User.findOne({
+      email: {
+        $regex: new RegExp("^" + email + "$", "i"),
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const match = await bcrypt.compare(currentPassword, user.password);
+    if (!match) {
+      return res.status(400).json({ message: "Incorrect current password" });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.log("CHANGE PASSWORD ERROR:", err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
 /* ================= CAREERS ================= */
 
 // GET JOBS

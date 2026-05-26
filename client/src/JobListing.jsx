@@ -158,7 +158,7 @@ function JobListing() {
       return;
     }
     try {
-      const res = await fetch(`${API}/admin/change-password`, {
+      const res = await fetch(`${API}/api/auth/change-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -167,7 +167,8 @@ function JobListing() {
           newPassword: passwordForm.newPass,
         }),
       });
-      if (!res.ok) throw new Error("Incorrect current password");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Incorrect current password");
       showToast("Password changed successfully");
       setShowChangePassword(false);
       setPasswordForm({ current: "", newPass: "", confirm: "" });
