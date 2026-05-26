@@ -52,9 +52,7 @@ function Services() {
     <div className="services-page">
       <Navbar />
 
-      
-      <div style={{ paddingTop: "120px" }}>
-        
+      <div className="services-content">
         <div className="services-header">
           <h1 className="services-title">Our <em>Services</em></h1>
         </div>

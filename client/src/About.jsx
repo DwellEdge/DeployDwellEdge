@@ -78,7 +78,7 @@ const About = () => {
         {/* WHO WE ARE */}
         <section className="about-section about-flex">
           <div className="about-image-wrapper">
-            <img src={Abtimg1} alt="Who We Are" className="about-image" />
+            <img src={Abtimg1} alt="Who We Are" className="about-image" width="540" height="360" loading="lazy" />
           </div>
           <div className="about-text">
             <h2 className="about-section-title">Who We Are</h2>
@@ -97,14 +97,14 @@ const About = () => {
             </p>
           </div>
           <div className="about-image-wrapper">
-            <img src={Abtimg2} alt="Our Mission" className="about-image" />
+            <img src={Abtimg2} alt="Our Mission" className="about-image" width="540" height="360" loading="lazy" />
           </div>
         </section>
 
         {/* EXPERTISE */}
         <section className="about-section about-flex">
           <div className="about-image-wrapper">
-            <img src={Abtimg3} alt="Our Expertise" className="about-image" />
+            <img src={Abtimg3} alt="Our Expertise" className="about-image" width="540" height="360" loading="lazy" />
           </div>
           <div className="about-text">
             <h2 className="about-section-title">Our Expertise</h2>
@@ -125,7 +125,7 @@ const About = () => {
             </ul>
           </div>
           <div className="about-image-wrapper">
-            <img src={Abtimg4} alt="Our Values" className="about-image" />
+            <img src={Abtimg4} alt="Our Values" className="about-image" width="540" height="360" loading="lazy" />
           </div>
         </section>
 
