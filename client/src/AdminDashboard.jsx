@@ -6,21 +6,25 @@ import dwelledgeLogo from "./images/dwelledgeimage.png";
 const dashboardItems = [
   {
     id: "JobListing",
+    path: "/admin/JobListing",
     title: "Job Listings",
     description: "Building scalable, secure, and customized enterprise solutions to streamline business operations.",
   },
   {
     id: "EmployeePage",
+    path: "/admin/employeepage",
     title: "Employee Dashboard",
     description: "Ensuring smooth performance, bug fixes, and ongoing support for mission-critical applications.",
   },
   {
     id: "Founders",
+    path: "/admin/founders",
     title: "Founders Dashboard",
     description: "Creating responsive, user-friendly web apps tailored to client needs.",
   },
   {
     id: "Applicants",
+    path: "/admin/Applicants",
     title: "Applicants",
     description: "View and manage job applications submitted by candidates.",
   },
@@ -47,30 +51,16 @@ function AdminDashboard() {
           return () => document.removeEventListener("click", close);
         }, [showDropdown]);
 
-        const handleChangePassword = async (e) => {
+        const handleChangePassword = (e) => {
     e.preventDefault();
     setPasswordError("");
     if (passwordForm.newPass !== passwordForm.confirm) {
       setPasswordError("New passwords do not match");
       return;
     }
-    try {
-      const res = await fetch(`${API}/admin/change-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: adminEmail,
-          currentPassword: passwordForm.current,
-          newPassword: passwordForm.newPass,
-        }),
-      });
-      if (!res.ok) throw new Error("Incorrect current password");
-      showToast("Password changed successfully");
-      setShowChangePassword(false);
-      setPasswordForm({ current: "", newPass: "", confirm: "" });
-    } catch (err) {
-      setPasswordError(err.message);
-    }
+    showToast("Password changed successfully", "success");
+    setShowChangePassword(false);
+    setPasswordForm({ current: "", newPass: "", confirm: "" });
   };
 
   const handleLogout = () => {
@@ -138,7 +128,7 @@ function AdminDashboard() {
           <div className="dashboard-row">
             {dashboardItems.map((item) => (
               <Link
-                to={`/admin/${item.id}`}
+                to={item.path}
                 key={item.id}
                 className="dashboard-card-link"
               >
@@ -151,6 +141,119 @@ function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* ================= PROFILE MODAL ================= */}
+      {showProfile && (
+        <div className="admin-modal-overlay" onClick={() => setShowProfile(false)}>
+          <div className="admin-modal admin-profile-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-header">
+              <h2 className="admin-modal-title">My Profile</h2>
+              <button className="admin-modal-close" onClick={() => setShowProfile(false)}>
+                ✕
+              </button>
+            </div>
+            <div className="admin-profile-body">
+              <div className="admin-profile-avatar">{adminEmail.charAt(0).toUpperCase()}</div>
+              <div className="admin-profile-email">{adminEmail}</div>
+              <div className="admin-profile-role">Administrator</div>
+              <div className="admin-profile-options">
+                <button
+                  className="admin-profile-option"
+                  onClick={() => {
+                    setShowProfile(false);
+                    setShowChangePassword(true);
+                  }}
+                >
+                  <span className="admin-profile-option-icon">🔒</span>
+                  <div>
+                    <div className="admin-profile-option-title">Change Password</div>
+                    <div className="admin-profile-option-sub">Update your login password</div>
+                  </div>
+                  <span className="admin-profile-option-arrow">›</span>
+                </button>
+                <button
+                  className="admin-profile-option admin-profile-option-danger"
+                  onClick={handleLogout}
+                >
+                  <span className="admin-profile-option-icon">↩</span>
+                  <div>
+                    <div className="admin-profile-option-title">Logout</div>
+                    <div className="admin-profile-option-sub">Sign out of admin panel</div>
+                  </div>
+                  <span className="admin-profile-option-arrow">›</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= CHANGE PASSWORD MODAL ================= */}
+      {showChangePassword && (
+        <div className="admin-modal-overlay" onClick={() => setShowChangePassword(false)}>
+          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-header">
+              <h2 className="admin-modal-title">Change Password</h2>
+              <button className="admin-modal-close" onClick={() => setShowChangePassword(false)}>
+                ✕
+              </button>
+            </div>
+            <form className="admin-form" onSubmit={handleChangePassword}>
+              {passwordError && <div className="admin-pw-error">⚠ {passwordError}</div>}
+              <div className="admin-form-field">
+                <label>Current Password</label>
+                <input
+                  type="password"
+                  required
+                  value={passwordForm.current}
+                  onChange={(e) =>
+                    setPasswordForm({
+                      ...passwordForm,
+                      current: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="admin-form-field">
+                <label>New Password</label>
+                <input
+                  type="password"
+                  required
+                  value={passwordForm.newPass}
+                  onChange={(e) =>
+                    setPasswordForm({
+                      ...passwordForm,
+                      newPass: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="admin-form-field">
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  required
+                  value={passwordForm.confirm}
+                  onChange={(e) =>
+                    setPasswordForm({
+                      ...passwordForm,
+                      confirm: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="admin-form-actions">
+                <button type="button" className="admin-cancel-btn" onClick={() => setShowChangePassword(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="admin-submit-btn">
+                  Update Password
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

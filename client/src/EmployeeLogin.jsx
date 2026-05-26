@@ -75,7 +75,7 @@ function Login() {
           </div>
 
           <div className="login-left-footer">
-            © 2024 DWELLEDGE Tech. All rights reserved.
+            © 2026 DWELLEDGE All rights reserved.
           </div>
         </div>
 
