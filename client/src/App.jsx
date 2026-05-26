@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "./Home";
 import Careers from "./Careers";
@@ -10,12 +10,21 @@ import AdminDashboard from "./AdminDashboard";
 import Navbar from "./Navbar";
 import Services from "./Services";
 import ServiceData from "./ServiceData";
+import JobListing from "./JobListing";
 import EmployeePage from "./EmployeePage";
+import Founders from "./Founders";
+import Applicants from "./Applicants";
+import ScrollToTop from "./ScrollToTop";
 
-function App() {
+
+function AppLayout() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
+
   return (
-    <Router>
-      <Navbar />
+    <>
+    <ScrollToTop />
+      {!isAdmin && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/careers" element={<Careers />} />
@@ -26,8 +35,19 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/services" element={<Services />} />
         <Route path="/services/:serviceId" element={<ServiceData />} />
-        <Route path="/admin/employees" element={<EmployeePage />} />
+        <Route path="/admin/JobListing" element={<JobListing/>}/>
+        <Route path="/admin/employeepage" element={<EmployeePage />} />
+        <Route path="/admin/founders" element={<Founders />} />
+        <Route path="/admin/Applicants" element={<Applicants />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppLayout />
     </Router>
   );
 }
