@@ -941,9 +941,10 @@ body {
   transform: scale(1.04);
 }
 
+
 /* ================= LOGIN PAGE ================= */
 .login-page {
-  min-height: 100vh;
+  min-height: 120vh;
   background: #f5f0e8;
   display: flex;
   align-items: center;
