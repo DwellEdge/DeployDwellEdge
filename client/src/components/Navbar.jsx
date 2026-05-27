@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
-import dwelledgeLogo from "./images/dwelledgeimage.png";
-import "./style.css";
+import dwelledgeLogo from "../images/dwelledgeimage.png";
+import "../style.css";
 
 function Navbar() {
 

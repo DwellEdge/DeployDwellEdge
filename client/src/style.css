@@ -758,7 +758,7 @@ em { color: var(--gold); }
   color: var(--ink);
   width: 85%;
   max-width: 900px;
-  height: 85vh;
+  height: 75vh;
   border-radius: 20px;
   padding: 30px;
   position: relative;

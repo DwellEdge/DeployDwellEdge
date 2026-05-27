@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./style.css";
-import dwelledgeLogo from "./images/dwelledgeimage.png";
+import "../style.css";
+import dwelledgeLogo from "../images/dwelledgeimage.png";
 
 function Footer() {
   return (

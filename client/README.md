@@ -1,16 +1,70 @@
-# React + Vite
+# Dwelledge Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite frontend for the Dwelledge website and employee dashboard.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Install dependencies:
+```bash
+cd client
+npm install
+```
 
-## React Compiler
+2. Configure backend URL in `.env.local`:
+```bash
+VITE_API_URL=http://localhost:5001
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+3. Start dev server:
+```bash
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Server runs on `http://localhost:5173`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Authentication
+
+Auth state managed via `AuthContext` in `context/AuthContext.jsx`:
+
+```jsx
+import { useAuth } from "./context/AuthContext.jsx";
+
+function MyComponent() {
+  const { login, register, logout, user, isAuthenticated } = useAuth();
+
+  // login(email, password) - returns { success, user/error }
+  // register(email, password, firstName, lastName) - returns { success, user/error }
+  // logout() - clears token and user
+}
+```
+
+## API Setup
+
+Axios instance (`utils/axios.js`):
+- ✅ Auto attaches bearer token from localStorage
+- ✅ Auto redirects to `/login` on 401 (expired token)
+- ✅ Base URL from `VITE_API_URL` env var
+
+## Routes
+
+Routes defined in `App.jsx`:
+- `/` - Home
+- `/careers` - Job listings
+- `/apply` - Apply for job
+- `/contact` - Contact form
+- `/login` - Employee login
+- `/admin` - Admin dashboard
+- `/admin/JobListing` - Manage jobs
+- `/admin/employeepage` - Manage employees
+- `/admin/founders` - Manage founders
+- `/admin/Applicants` - View applications
+
+Protected routes should use `useAuth()` to check `isAuthenticated` and redirect if not.
+
+## Build
+
+```bash
+npm run build  # output: dist/
+npm run preview
+npm run lint
+```
