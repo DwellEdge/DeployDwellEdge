@@ -1,31 +1,31 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import "./style.css";
-import Footer from "./Footer";
-import Navbar from "./Navbar";
+import "../style.css";
+import Footer from "../components/Footer.jsx";
+import Navbar from "../components/Navbar.jsx";
 
 // Hero slider videos (6 new)
-import slide1 from "./vedioes/TechnologyAbstract.mp4";
-import slide2 from "./vedioes/office.mp4";
-import slide3 from "./vedioes/teaching.mp4";
-import slide4 from "./vedioes/peoplecoding.mp4";
-import slide5 from "./vedioes/keyboardtyping.mp4";
-import slide6 from "./vedioes/falling blocks.mp4";
+import slide1 from "../vedioes/TechnologyAbstract.mp4";
+import slide2 from "../vedioes/office.mp4";
+import slide3 from "../vedioes/teaching.mp4";
+import slide4 from "../vedioes/peoplecoding.mp4";
+import slide5 from "../vedioes/keyboardtyping.mp4";
+import slide6 from "../vedioes/falling blocks.mp4";
 
 // Promo section videos 
-import video1 from "./vedioes/ai-animation-video.mp4";
-import video2 from "./vedioes/successful-marketing.mp4";
+import video1 from "../vedioes/ai-animation-video.mp4";
+import video2 from "../vedioes/successful-marketing.mp4";
 
 // Images
-import image1 from "./images/buildings.png";
-import image2 from "./images/design-building.png";
-import image3 from "./images/nature-buildings.png";
-import img1 from "./images/app-support-image.avif";
-import img2 from "./images/ecommers-application.jpg";
-import img3 from "./images/healthcare-domin-image.jpg";
-import img4 from "./images/hospital-application.webp";
-import img5 from "./images/hostal-application.jpg";
-import img6 from "./images/webdegin-image.avif";
+import image1 from "../images/buildings.png";
+import image2 from "../images/design-building.png";
+import image3 from "../images/nature-buildings.png";
+import img1 from "../images/app-support-image.avif";
+import img2 from "../images/ecommers-application.jpg";
+import img3 from "../images/healthcare-domin-image.jpg";
+import img4 from "../images/hospital-application.webp";
+import img5 from "../images/hostal-application.jpg";
+import img6 from "../images/webdegin-image.avif";
 
 function Home() {
   const slides = [

@@ -375,11 +375,11 @@ body {
   margin-bottom: 36px;
   transition: all 0.3s ease;
   letter-spacing: 0.5px;
-  padding: 12px 28px;
+  padding: 16px 24px;
   border: 1.5px solid rgba(26, 22, 18, 0.15);
   border-radius: 100px;
   background: rgba(255, 255, 255, 0.5);
-  min-width: 560px;
+  min-width: 50px;
   justify-content: center;
 }
 

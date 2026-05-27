@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Navbar from "./Navbar";
-import "./innerpages.css";
+import Navbar from "../components/Navbar.jsx";
+import "../innerpages.css";
 
 const services = [
   {

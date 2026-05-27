@@ -2,8 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import authRoutes from "./routes/auth.js";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -53,17 +52,7 @@ mongoose
 
 /* ================= SCHEMAS ================= */
 
-// USER
-const userSchema = new mongoose.Schema(
-  {
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    loginHistory: [{ date: { type: Date, default: Date.now } }],
-  },
-  { timestamps: true }
-);
-
-const User = mongoose.model("User", userSchema);
+// NOTE: User model moved to server/models/User.js
 
 // CAREERS
 const careerSchema = new mongoose.Schema({
@@ -208,112 +197,8 @@ app.get("/", (req, res) => {
   res.send("🚀 API Running Successfully");
 });
 
-/* ================= AUTH ================= */
-
-// REGISTER
-app.post("/api/auth/register", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    const exists = await User.findOne({ email });
-    if (exists) return res.status(400).json({ message: "User already exists" });
-
-    const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashed });
-
-    res.json({ message: "User created", user });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// LOGIN
-app.post("/api/auth/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    // ✅ CASE-INSENSITIVE EMAIL SEARCH
-    const user = await User.findOne({
-      email: {
-        $regex: new RegExp("^" + email + "$", "i"),
-      },
-    });
-
-    // ❌ USER NOT FOUND
-    if (!user) {
-      return res.status(400).json({
-        message: "Invalid credentials",
-      });
-    }
-
-    // ✅ CHECK PASSWORD
-    const match = await bcrypt.compare(password, user.password);
-
-    if (!match) {
-      return res.status(400).json({
-        message: "Invalid credentials",
-      });
-    }
-
-    // ✅ TOKEN
-    const token = jwt.sign(
-      {
-        id: user._id,
-        email: user.email,
-      },
-      JWT_SECRET,
-      {
-        expiresIn: "8h",
-      },
-    );
-
-    // ✅ SUCCESS
-    res.json({
-      token,
-      email: user.email,
-    });
-  } catch (err) {
-    console.log(err);
-
-    res.status(500).json({
-      message: err.message,
-    });
-  }
-});
-
-// CHANGE PASSWORD
-app.post("/api/auth/change-password", async (req, res) => {
-  try {
-    const { email, currentPassword, newPassword } = req.body;
-
-    if (!email || !currentPassword || !newPassword) {
-      return res.status(400).json({ message: "Missing required fields" });
-    }
-
-    const user = await User.findOne({
-      email: {
-        $regex: new RegExp("^" + email + "$", "i"),
-      },
-    });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const match = await bcrypt.compare(currentPassword, user.password);
-    if (!match) {
-      return res.status(400).json({ message: "Incorrect current password" });
-    }
-
-    user.password = await bcrypt.hash(newPassword, 10);
-    await user.save();
-
-    res.json({ message: "Password updated successfully" });
-  } catch (err) {
-    console.log("CHANGE PASSWORD ERROR:", err);
-    res.status(500).json({ message: err.message });
-  }
-});
+/* ================= AUTH (routes mounted) ================= */
+app.use("/api/auth", authRoutes);
 
 
 /* ================= CAREERS ================= */

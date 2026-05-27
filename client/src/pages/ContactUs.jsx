@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Navbar from "./Navbar";
-import "./style.css";
+import Navbar from "../components/Navbar.jsx";
+import "../style.css";
 
 const API = "http://localhost:5001";
 

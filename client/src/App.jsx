@@ -1,20 +1,21 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
-import Home from "./Home";
-import Careers from "./Careers";
-import ApplyJob from "./ApplyJob";
-import ContactUsPage from "./ContactUs";
-import About from "./About";
-import Login from "./EmployeeLogin";
-import AdminDashboard from "./AdminDashboard";
-import Navbar from "./Navbar";
-import Services from "./Services";
-import ServiceData from "./ServiceData";
-import JobListing from "./JobListing";
-import EmployeePage from "./EmployeePage";
-import Founders from "./Founders";
-import Applicants from "./Applicants";
-import ScrollToTop from "./ScrollToTop";
+import Home from "./pages/Home.jsx";
+import Careers from "./pages/Careers.jsx";
+import ApplyJob from "./pages/ApplyJob.jsx";
+import ContactUsPage from "./pages/ContactUs.jsx";
+import About from "./pages/About.jsx";
+import Login from "./pages/EmployeeLogin.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+import Navbar from "./components/Navbar.jsx";
+import Services from "./pages/Services.jsx";
+import ServiceData from "./pages/ServiceData.jsx";
+import JobListing from "./pages/JobListing.jsx";
+import EmployeePage from "./pages/EmployeePage.jsx";
+import Founders from "./pages/Founders.jsx";
+import Applicants from "./pages/Applicants.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 
 function AppLayout() {
@@ -47,7 +48,9 @@ function AppLayout() {
 function App() {
   return (
     <Router>
-      <AppLayout />
+      <AuthProvider>
+        <AppLayout />
+      </AuthProvider>
     </Router>
   );
 }

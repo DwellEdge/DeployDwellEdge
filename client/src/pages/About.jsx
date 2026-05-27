@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import "./innerpages.css";
-import Navbar from "./Navbar";
+import "../innerpages.css";
+import Navbar from "../components/Navbar.jsx";
 
-import Abtimg1 from "./images/whoweare.jpeg";
-import Abtimg2 from "./images/mission.jpeg";
-import Abtimg3 from "./images/expertise.jpeg";
-import Abtimg4 from "./images/values.jpeg";
+import Abtimg1 from "../images/whoweare.jpeg";
+import Abtimg2 from "../images/mission.jpeg";
+import Abtimg3 from "../images/expertise.jpeg";
+import Abtimg4 from "../images/values.jpeg";
 
 const About = () => {
   useEffect(() => {

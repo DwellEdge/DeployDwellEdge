@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./Navbar";
-import bgImage from "./images/career-image.jpg";
-import "./style.css";
+import Navbar from "../components/Navbar.jsx";
+import bgImage from "../images/career-image.jpg";
+import "../style.css";
 import { useNavigate } from "react-router-dom";
 
 function Careers() {
