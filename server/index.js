@@ -2,11 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import authRoutes from "./routes/auth.js";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import nodemailer from "nodemailer";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -52,17 +52,7 @@ mongoose
 
 /* ================= SCHEMAS ================= */
 
-// USER
-const userSchema = new mongoose.Schema(
-  {
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    loginHistory: [{ date: { type: Date, default: Date.now } }],
-  },
-  { timestamps: true }
-);
-
-const User = mongoose.model("User", userSchema);
+// NOTE: User model moved to server/models/User.js
 
 // CAREERS
 const careerSchema = new mongoose.Schema({
@@ -207,78 +197,9 @@ app.get("/", (req, res) => {
   res.send("🚀 API Running Successfully");
 });
 
-/* ================= AUTH ================= */
+/* ================= AUTH (routes mounted) ================= */
+app.use("/api/auth", authRoutes);
 
-// REGISTER
-app.post("/api/auth/register", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    const exists = await User.findOne({ email });
-    if (exists) return res.status(400).json({ message: "User already exists" });
-
-    const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashed });
-
-    res.json({ message: "User created", user });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// LOGIN
-app.post("/api/auth/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    // ✅ CASE-INSENSITIVE EMAIL SEARCH
-    const user = await User.findOne({
-      email: {
-        $regex: new RegExp("^" + email + "$", "i"),
-      },
-    });
-
-    // ❌ USER NOT FOUND
-    if (!user) {
-      return res.status(400).json({
-        message: "Invalid credentials",
-      });
-    }
-
-    // ✅ CHECK PASSWORD
-    const match = await bcrypt.compare(password, user.password);
-
-    if (!match) {
-      return res.status(400).json({
-        message: "Invalid credentials",
-      });
-    }
-
-    // ✅ TOKEN
-    const token = jwt.sign(
-      {
-        id: user._id,
-        email: user.email,
-      },
-      JWT_SECRET,
-      {
-        expiresIn: "8h",
-      },
-    );
-
-    // ✅ SUCCESS
-    res.json({
-      token,
-      email: user.email,
-    });
-  } catch (err) {
-    console.log(err);
-
-    res.status(500).json({
-      message: err.message,
-    });
-  }
-});
 
 /* ================= CAREERS ================= */
 
@@ -406,6 +327,85 @@ app.get("/test-db", async (req, res) => {
   } catch {
     res.send("❌ DB NOT Connected");
   }
+});
+
+/*=======Contactus========*/
+
+app.post("/contact", async (req, res) => {
+
+  try {
+
+    console.log("BODY:", req.body);
+
+    const {
+      fullName,
+      email,
+      organization,
+      mobile,
+      country,
+      jobTitle,
+      message
+    } = req.body;
+
+    const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+const mailOptions = {
+  from: process.env.EMAIL_USER,
+  to: process.env.EMAIL_TO || "triosntechies@gmail.com",
+  subject: "New Contact Form Submission",
+  html: `
+        <div style="font-family: Arial; padding: 20px;">
+
+          <h2 style="color:#333;">New Contact Request</h2>
+
+          <hr/>
+
+          <p><b>Full Name:</b> ${fullName}</p>
+
+          <p><b>Email:</b> ${email}</p>
+
+          <p><b>Organization:</b> ${organization}</p>
+
+          <p><b>Mobile:</b> ${mobile}</p>
+
+          <p><b>Country:</b> ${country}</p>
+
+          <p><b>Job Title:</b> ${jobTitle}</p>
+
+          <h3>Message:</h3>
+
+          <p>${message}</p>
+
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    console.log("✅ Email Sent");
+
+    res.status(200).json({
+      success: true,
+      message: "Email Sent Successfully"
+    });
+
+  } catch (err) {
+
+    console.log("❌ EMAIL ERROR:", err);
+
+    res.status(500).json({
+      success: false,
+      message: "Email Failed"
+    });
+
+  }
+
 });
 
 /* ================= START SERVER ================= */

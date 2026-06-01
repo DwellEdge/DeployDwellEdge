@@ -10,6 +10,13 @@
   transform: translateY(0);
 }
 
+/* Global smooth scrolling and navbar offset */
+html {
+  scroll-behavior: smooth;
+  /* account for fixed navbar when using anchors */
+  scroll-padding-top: 100px;
+}
+
 /* ===== GLOBAL ===== */
 body {
   margin: 0;
@@ -29,7 +36,20 @@ body {
 
 img, video, iframe {
   max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
 }
+
+/* Prevent layout shift: ensure images/videos reserve space where possible */
+img[width][height], video[width][height] {
+  width: auto;
+  height: auto;
+}
+
+/* Toast default styles (in case JS-based styles don't load) */
+.global-toast { box-sizing: border-box; }
+
 
 /* ===== NAVBAR ===== */
 .navbar {
@@ -59,8 +79,8 @@ img, video, iframe {
 }
 
 .logo-img {
-  width: 45px;
-  height: 35px;
+ height: 48px;
+  width: auto;
   object-fit: contain;
 }
 
@@ -738,7 +758,7 @@ em { color: var(--gold); }
   color: var(--ink);
   width: 85%;
   max-width: 900px;
-  height: 85vh;
+  height: 75vh;
   border-radius: 20px;
   padding: 30px;
   position: relative;

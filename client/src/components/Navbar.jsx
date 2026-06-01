@@ -1,0 +1,269 @@
+import React, { useState, useEffect, useRef } from "react";
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
+import dwelledgeLogo from "../images/dwelledgeimage.png";
+import "../style.css";
+
+function Navbar() {
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const dropdownRef = useRef(null);
+
+  // ================= CHECK LOGIN =================
+
+  const checkAuth = () => {
+
+    try {
+
+      const token = localStorage.getItem("token");
+      const email = localStorage.getItem("adminEmail");
+
+      // ✅ VALID LOGIN
+      if (
+        token &&
+        email &&
+        email !== "undefined" &&
+        email !== "null" &&
+        email.trim() !== ""
+      ) {
+
+        setIsLoggedIn(true);
+        setAdminEmail(email);
+
+      } else {
+
+        // ❌ CLEAR INVALID DATA
+        localStorage.removeItem("token");
+        localStorage.removeItem("adminEmail");
+
+        setIsLoggedIn(false);
+        setAdminEmail("");
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+      setIsLoggedIn(false);
+      setAdminEmail("");
+    }
+  };
+
+  // ================= RUN AUTH CHECK =================
+
+  useEffect(() => {
+
+    checkAuth();
+
+    // ✅ UPDATE NAVBAR AFTER LOGIN / LOGOUT
+    window.addEventListener("storage", checkAuth);
+
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+    };
+
+  }, [location.pathname]);
+
+  // ================= CLOSE MOBILE MENU =================
+
+  useEffect(() => {
+
+    setMenuOpen(false);
+
+  }, [location.pathname]);
+
+  // ================= CLOSE DROPDOWN =================
+
+  useEffect(() => {
+
+    const handleClick = (e) => {
+
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener("click", handleClick);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+
+  }, [showDropdown]);
+
+  // ================= LOGOUT =================
+
+  const handleLogout = () => {
+
+    // ✅ CLEAR STORAGE
+    localStorage.clear();
+
+    // ✅ RESET STATES
+    setIsLoggedIn(false);
+    setAdminEmail("");
+    setShowDropdown(false);
+
+    // ✅ UPDATE NAVBAR
+    window.dispatchEvent(new Event("storage"));
+
+    // ✅ GO HOME
+    navigate("/");
+  };
+
+  // ================= AVATAR LETTER =================
+
+  const avatarLetter =
+    adminEmail && adminEmail !== "undefined"
+      ? adminEmail.charAt(0).toUpperCase()
+      : "";
+
+  return (
+
+    <header className="navbar">
+
+      {/* ================= LOGO ================= */}
+
+      <div className="logo-container">
+       < Link to ="/"> <img src={dwelledgeLogo} alt="Dwelledge Logo" className="logo-img" /></Link>
+        <h2 className="logo-text"><Link to="/">DWELLEDGE</Link></h2>
+      </div>
+
+      {/* ================= MOBILE MENU ================= */}
+
+      <button
+        className={`hamburger ${menuOpen ? "open" : ""}`}
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle menu"
+      >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </button>
+
+      {/* ================= NAVBAR ================= */}
+
+      <nav className={menuOpen ? "nav-open" : ""}>
+
+        <ul className="nav-links">
+
+          <li>
+            <NavLink to="/" end className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Home</NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/about" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>About</NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/services" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Services</NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/careers" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Careers</NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/contact" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Contact</NavLink>
+          </li>
+
+          {/* ================= LOGIN / PROFILE ================= */}
+
+          <li>
+
+            {isLoggedIn && avatarLetter ? (
+
+              <div
+                className="navbar-avatar-wrapper"
+                ref={dropdownRef}
+              >
+
+                <button
+                  className="navbar-avatar-btn"
+                  onClick={() =>
+                    setShowDropdown(!showDropdown)
+                  }
+                >
+                  {avatarLetter}
+                </button>
+
+                {/* ================= DROPDOWN ================= */}
+
+                {showDropdown && (
+
+                  <div className="navbar-dropdown">
+
+                    <div className="navbar-dropdown-header">
+
+                      <div className="navbar-dropdown-avatar">
+                        {avatarLetter}
+                      </div>
+
+                      <div>
+
+                        <div className="navbar-dropdown-email">
+                          {adminEmail}
+                        </div>
+
+                        <div className="navbar-dropdown-role">
+                          Administrator
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <hr className="navbar-dropdown-divider" />
+
+                    <button
+                      className="navbar-dropdown-item"
+                      onClick={() => {
+
+                        setShowDropdown(false);
+
+                        navigate("/admin");
+
+                      }}
+                    >
+                      🖥 Dashboard
+                    </button>
+
+                    <hr className="navbar-dropdown-divider" />
+
+                    <button
+                      className="navbar-dropdown-item navbar-dropdown-logout"
+                      onClick={handleLogout}
+                    >
+                      ↩ Logout
+                    </button>
+
+                  </div>
+                )}
+              </div>
+
+            ) : (
+
+              <Link to="/login">
+                Employee Login
+              </Link>
+
+            )}
+          </li>
+        </ul>
+      </nav>
+    </header>
+  );
+}
+
+export default Navbar;
