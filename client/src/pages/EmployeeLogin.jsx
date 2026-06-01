@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "../innerpages.css";
+import "./innerpages.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,35 +14,47 @@ function Login() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5001/api/auth/login", {
+      const apiUrl = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+      if (!apiUrl) {
+        throw new Error("API URL is not configured. Set VITE_API_URL in Vercel.");
+      }
+
+      if (apiUrl.includes("vercel.app") && !apiUrl.includes("onrender.com")) {
+        throw new Error(
+          "VITE_API_URL must be your Render backend (e.g. https://deploydwelledge.onrender.com), not the Vercel site URL."
+        );
+      }
+
+      const res = await fetch(`${apiUrl}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: email.trim(), password }),
       });
 
-      let data;
-      const contentType = res.headers.get("content-type") || "";
-      if (contentType.includes("application/json")) {
+      let data = {};
+      try {
         data = await res.json();
-      } else {
-        const text = await res.text();
-        try {
-          data = JSON.parse(text);
-        } catch {
-          data = { message: text };
-        }
+      } catch {
+        /* non-JSON body (e.g. HTML 404 page) */
       }
 
       if (!res.ok) {
-        throw new Error(data.message || "Login failed");
+        if (res.status === 404) {
+          throw new Error(
+            `API not found (404). Set VITE_API_URL to https://deploydwelledge.onrender.com and redeploy.`
+          );
+        }
+        throw new Error(data.message || `Login failed (${res.status})`);
       }
 
-      // ✅ SAVE LOGIN DATA
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("adminEmail", email);
+      if (!data.token) {
+        throw new Error("Login failed: no token received from server.");
+      }
 
-      // ✅ FORCE REFRESH AUTH STATE
-      window.location.href = "/admin";
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("adminEmail", email.trim());
+
+      navigate("/admin");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -87,7 +99,7 @@ function Login() {
           </div>
 
           <div className="login-left-footer">
-            © 2026 DWELLEDGE All rights reserved.
+            © 2024 DWELLEDGE Tech. All rights reserved.
           </div>
         </div>
 

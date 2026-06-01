@@ -56,7 +56,7 @@ function ApplyJob() {
                 formData.append('resume', user.resume);
             }
 
-            const res = await fetch("http://localhost:5001/apply", {
+                        const res = await fetch(import.meta.env.VITE_API_URL + "/apply", {
                 method: "POST",
                 body: formData
             });

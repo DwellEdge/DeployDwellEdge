@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../innerpages.css";
-import dwelledgeLogo from "../images/dwelledgeimage.png";
+import "./innerpages.css";
+import dwelledgeLogo from "./images/dwelledgeimage.png";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
 
-const API = "http://localhost:5001";
+const API =  import.meta.env.VITE_API_URL;
 
 function Founders() {
     const [founders, setFounders] = useState([]);

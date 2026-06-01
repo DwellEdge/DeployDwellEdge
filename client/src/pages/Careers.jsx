@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar.jsx";
-import bgImage from "../images/career-image.jpg";
-import "../style.css";
+import Navbar from "./Navbar";
+import bgImage from "./images/career-image.jpg";
+import "./style.css";
 import { useNavigate } from "react-router-dom";
 
 function Careers() {
@@ -14,7 +14,8 @@ function Careers() {
 
   /* FETCH JOBS */
   useEffect(() => {
-    fetch("http://localhost:5001/careers")
+    fetch(`${import.meta.env.VITE_API_URL}/careers`)
+
       .then((res) => res.json())
       .then((data) => {
         console.log("API DATA:", data);

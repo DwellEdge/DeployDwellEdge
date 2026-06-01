@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "../innerpages.css";
-import dwelledgeLogo from "../images/dwelledgeimage.png";
+import "./innerpages.css";
+import dwelledgeLogo from "./images/dwelledgeimage.png";
 
-const API = "http://localhost:5001";
-
+const API =  import.meta.env.VITE_API_URL;
 
 function EmployeePage() {
     const [employees, setEmployees] = useState([]);
@@ -148,7 +147,7 @@ function EmployeePage() {
             return;
         }
         try {
-            const res = await fetch(`${API}/api/auth/change-password`, {
+            const res = await fetch(`${API}/admin/change-password`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -157,8 +156,7 @@ function EmployeePage() {
                     newPassword: passwordForm.newPass,
                 }),
             });
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.message || "Incorrect current password");
+            if (!res.ok) throw new Error("Incorrect current password");
             showToast("Password changed successfully");
             setShowChangePassword(false);
             setPasswordForm({ current: "", newPass: "", confirm: "" });

@@ -3,7 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import "../innerpages.css";
 import dwelledgeLogo from "../images/dwelledgeimage.png";
 
-const API = "http://localhost:5001";
+const API = import.meta.env.VITE_API_URL;
+
 
 function Applicants() {
 
