@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "./innerpages.css";
-import dwelledgeLogo from "./images/dwelledgeimage.png";
+import "../innerpages.css";
+import dwelledgeLogo from "../images/dwelledgeimage.png";
 
 const API =  import.meta.env.VITE_API_URL;
 
